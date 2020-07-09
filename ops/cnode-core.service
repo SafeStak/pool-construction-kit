@@ -1,0 +1,22 @@
+[Unit]
+Description=Cardano Node - Core
+After=multi-user.target
+
+[Service]
+Type=simple
+User=ss
+EnvironmentFile=/home/ss/node/config/stn-core.environment
+ExecStart=/usr/bin/screen -U -DmS cnode /home/ss/.local/bin/cardano-node run --config $CONFIG --topology $TOPOLOGY --database-path $DBPATH --socket-path $SOCKETPATH --host-addr $HOSTADDR --port $PORT --shelley-kes-key $KESKEY --shelley-vrf-key $VRFKEY --shelley-operational-certificate $OPCERT
+LimitNOFILE=32768
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cardano-node-core
+
+Restart=on-failure
+RestartSec=4s
+KillSignal=SIGINT
+RestartKillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

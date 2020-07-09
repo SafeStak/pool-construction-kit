@@ -1,0 +1,8 @@
+# Terraform artefacts
+.tfstate
+.terraform
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.pem
+*.localnote
