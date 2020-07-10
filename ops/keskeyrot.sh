@@ -12,4 +12,6 @@ cardano-cli shelley node issue-op-cert \
 --operational-certificate-issue-counter ~/kc/cold.counter \
 --kes-period $KESP --out-file ~/kc/node.cert
 
+echo $(date --iso-8601=seconds) $(cat ~/kc/cold.counter | sed -n 2p) >> ~/kc/keskeyrot.log
+
 # Don't forget to restart your node after this - sudo systemctl restart cnode-core
