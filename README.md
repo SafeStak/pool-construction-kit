@@ -10,6 +10,11 @@
  - **Terraform** [here](https://www.terraform.io/downloads.html)
  - **Visual Studio Code** [here](https://code.visualstudio.com/download) and the **Remote - SSH** extension
 
+## General Guide
+ 1. Provision Azure infrastructure with Terraform after defining values for variables in spool-vars
+ 2. Follow README instructions under /init to set up the cardano-node 
+ 3. Follow README instructions under /ops on running the nodes
+
 ## Was this useful?
 I hope this guide can help many others get their first Cardano stake pool up and running. I truly believe that the more people we have contributing to the community the quicker this ecosystem can realise its tremendous potential.
 

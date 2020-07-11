@@ -1,6 +1,6 @@
 # SafeStak [SAFE] Cardano Stake Pool Operation Kit
 
-## Running nodes
+## Running Nodes (ad-hoc)
 Note the public IP of the core and relay VMs from the provisioning. Ensure the topology.json of the core node only has the relay node IP address and the relay node has both the core and the Cardano relay node. Please see the topology-core.jsont and topology-relay.jsont files for reference.
 
 ### Relay
@@ -27,8 +27,8 @@ cardano-node run \
   --shelley-operational-certificate ~/kc/node.cert
 ```
 
-## Using systemd 
-By registering and enabling [./cnode-core.service](cnode-core.service) and [./cnode-relay.service](cnode-relay.service) as systemd services, these nodes can run (and restart) automatically upon system boot.
+## Running Nodes as systemd Services
+By registering and enabling [cnode-core.service](./cnode-core.service) and [cnode-relay.service](./cnode-relay.service) as systemd services, these nodes can run (and restart) automatically upon system boot.
 
 ### Relay
 ```
@@ -50,6 +50,9 @@ sudo systemctl status cnode-core # This should look good
 sudo systemctl enable cnode-core
 ```
 
+## KES Key Rotation
+For the testnets KES key rotation is done live on the core node by simply running [keskeyrot.sh](./keskeyrot.sh) but on mainnet the node.cert will be generated offline (where cold keys will reside) based on a separately queried $KESP value and transferred securely across to the core node.
+
 ## Checking rewards
 ```
 cardano-cli shelley query stake-address-info --address $(cat ~/kc/stake.addr) --testnet-magic 42
@@ -59,5 +62,7 @@ cardano-cli shelley query stake-address-info --address $(cat ~/kc/stake.addr) --
 Some guidance from [this article](https://www.cyberciti.biz/faq/what-process-has-open-linux-port/).
 ### Get Process Info
 `ps aux | grep cardano`
+### Get Live Network connections on Nodes
+sudo netstat -tpn | grep :300
 ### Get Network Status
-`sudo ss -tulpn | grep 3000` or `netstat -tulpn | grep 3000` or `lsof -i :3000`
+`sudo ss -tulpn | grep 300` or `netstat -tulpn | grep 300` or `lsof -i :300`

@@ -58,9 +58,9 @@ cd ~/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
 git fetch --all --tags
-git checkout release/1.14.x
+git checkout release/1.15.x
 echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" > cabal.project.local
-~/.local/bin/cabal install cardano-node cardano-cli --installdir="~/.local/bin/" --overwrite-policy=always  # Takes 15+ mins first time around
+~/.local/bin/cabal install cardano-node cardano-cli --installdir=$HOME/.local/bin/ --overwrite-policy=always  # Takes 15+ mins first time around
 
 echo '========================================================='
 echo 'Generating node artefacts - genesis, config and topology'
@@ -68,9 +68,9 @@ echo '========================================================='
 mkdir -p ~/node/config
 mkdir -p ~/node/socket
 cd ~/node/config
-wget -O topology.json https://hydra.iohk.io/build/3245987/download/1/shelley_testnet-topology.json
-wget -O genesis.json https://hydra.iohk.io/build/3245987/download/1/shelley_testnet-genesis.json
-wget -O config.json https://hydra.iohk.io/build/3245987/download/1/shelley_testnet-config.json
+wget -O topology.json https://hydra.iohk.io/build/3413883/download/1/mainnet_candidate-topology.json
+wget -O genesis.json https://hydra.iohk.io/build/3413883/download/1/mainnet_candidate-shelley-genesis.json
+wget -O config.json https://hydra.iohk.io/build/3413883/download/1/mainnet_candidate-config.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
 sed -i 's/"ViewMode": "SimpleView"/"ViewMode": "LiveView"/g' config.json
 sed -i 's/shelley_testnet-genesis/genesis/g' config.json

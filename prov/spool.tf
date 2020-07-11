@@ -226,8 +226,21 @@ resource "azurerm_network_watcher" "example" {
 }
 
 # Create storage account for boot diagnostics
-resource "azurerm_storage_account" "storage" {
-    name                        = "${var.storage-prefix}stor"
+resource "azurerm_storage_account" "corestorage" {
+    name                        = "${var.storage-prefix}cstorz"
+    resource_group_name         = azurerm_resource_group.rg.name
+    location                    = var.pool-location
+    account_tier                = "Standard"
+    account_replication_type    = "LRS"
+    tags = {
+        platform = var.tag-platform
+        stage = var.tag-stage
+        data-classification = var.tag-data-classification
+    }
+}
+
+resource "azurerm_storage_account" "relaystorage" {
+    name                        = "${var.storage-prefix}rstorz"
     resource_group_name         = azurerm_resource_group.rg.name
     location                    = var.pool-location
     account_tier                = "Standard"
@@ -276,7 +289,7 @@ resource "azurerm_linux_virtual_machine" "corevm" {
         public_key     = tls_private_key.sshkey.public_key_openssh
     }
     boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.storage.primary_blob_endpoint
+        storage_account_uri = azurerm_storage_account.corestorage.primary_blob_endpoint
     }
     tags = {
         platform = var.tag-platform
@@ -315,7 +328,7 @@ resource "azurerm_linux_virtual_machine" "relay0vm" {
         public_key     = tls_private_key.sshkey.public_key_openssh
     }
     boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.storage.primary_blob_endpoint
+        storage_account_uri = azurerm_storage_account.relaystorage.primary_blob_endpoint
     }
     tags = {
         platform = var.tag-platform
@@ -354,7 +367,7 @@ resource "azurerm_linux_virtual_machine" "relay1vm" {
         public_key     = tls_private_key.sshkey.public_key_openssh
     }
     boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.storage.primary_blob_endpoint
+        storage_account_uri = azurerm_storage_account.relaystorage.primary_blob_endpoint
     }
     tags = {
         platform = var.tag-platform
