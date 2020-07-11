@@ -227,7 +227,7 @@ resource "azurerm_network_watcher" "example" {
 
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "corestorage" {
-    name                        = "${var.storage-prefix}cstorz"
+    name                        = "${var.storage-prefix}cstor"
     resource_group_name         = azurerm_resource_group.rg.name
     location                    = var.pool-location
     account_tier                = "Standard"
@@ -240,7 +240,7 @@ resource "azurerm_storage_account" "corestorage" {
 }
 
 resource "azurerm_storage_account" "relaystorage" {
-    name                        = "${var.storage-prefix}rstorz"
+    name                        = "${var.storage-prefix}rstor"
     resource_group_name         = azurerm_resource_group.rg.name
     location                    = var.pool-location
     account_tier                = "Standard"
