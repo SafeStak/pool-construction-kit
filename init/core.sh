@@ -200,7 +200,7 @@ echo '========================================================='
 echo 'Submitting transaction'
 echo '========================================================='
 cardano-cli shelley transaction submit \
---tx-file tx.signed \
+--tx-file SAFE.tx.signed \
 --cardano-mode \
 --testnet-magic 42
 echo '========================================================='
