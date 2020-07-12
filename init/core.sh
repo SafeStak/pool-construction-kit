@@ -28,7 +28,7 @@ curl -v -XPOST "https://faucet.shelley-testnet.dev.cardano.org/send-money/$(cat 
 echo '========================================================='
 echo 'Generating Protocol Parameters'
 echo '========================================================='
-cardano-cli shelley query protocol-parameters --testnet-magic 42 --out-file protocol.json
+cardano-cli shelley query protocol-parameters --testnet-magic 42 --out-file protocol.json --cardano-mode
 
 echo '========================================================='
 echo 'Generating Stake Pool Registration Certificate'
@@ -38,7 +38,7 @@ cardano-cli shelley stake-address registration-certificate --stake-verification-
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 | tail -n 1)
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --cardano-mode | tail -n 1)
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
