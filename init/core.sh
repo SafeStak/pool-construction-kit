@@ -121,6 +121,7 @@ cardano-cli shelley node issue-op-cert \
 --cold-signing-key-file cold.skey \
 --operational-certificate-issue-counter cold.counter \
 --kes-period $KESP --out-file node.cert
+cp kes-$KESCOUNTER.skey kes.skey
 echo $(date --iso-8601=seconds) $KESCOUNTER >> ~/kc/keskeyop.log
 
 echo '========================================================='

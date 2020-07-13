@@ -32,7 +32,7 @@ By registering and enabling [cnode-core.service](./cnode-core.service) and [cnod
 
 ### Relay
 ```
-cp stn-relay.environment ~/node/config
+cp cnode-relay.environment ~/node/config
 sudo cp cnode-relay.service /etc/systemd/system/cnode-relay.service
 sudo chmod 644 /etc/systemd/system/cnode-relay.service
 sudo systemctl start cnode-relay
@@ -42,7 +42,7 @@ sudo systemctl enable cnode-relay
 
 ### Core
 ```
-cp stn-core.environment ~/node/config
+cp cnode-core.environment ~/node/config
 sudo cp cnode-core.service /etc/systemd/system/cnode-core.service
 sudo chmod 644 /etc/systemd/system/cnode-core.service
 sudo systemctl start cnode-core

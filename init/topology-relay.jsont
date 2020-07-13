@@ -6,9 +6,24 @@
       "valency": 2
     },
     {
+      "addr": "relay.trustedpoolpeer0.org",
+      "port": 3001,
+      "valency": 1
+    },
+    {
+      "addr": "relay.trustedpoolpeer1.org",
+      "port": 3001,
+      "valency": 1
+    },
+    {
+      "addr": "relay.trustedpoolpeer2.org",
+      "port": 3001,
+      "valency": 1
+    },
+    {
       "addr": "${var.core-address}",
       "port": {var.core-node-port},
-      "valency": 2
+      "valency": 1
     }
   ]
 }

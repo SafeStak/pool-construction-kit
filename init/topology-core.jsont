@@ -1,9 +1,14 @@
 {
   "Producers": [
     {
-      "addr": "${var.relay-address}",
-      "port": ${var.relay-node-port},
-      "valency": 2
+      "addr": "${var.relay0-address}",
+      "port": ${var.relay0-node-port},
+      "valency": 1
+    },
+    {
+      "addr": "${var.relay1-address}",
+      "port": ${var.relay1-node-port},
+      "valency": 1
     }
   ]
 }

@@ -1,10 +1,18 @@
 #!/bin/bash
 
 echo '========================================================='
+echo 'Regenerating KES Key pair'
+echo '========================================================='
+KESCOUNTER=$(printf "%06d" $(cat ~/kc/cold.counter | jq -r .description | egrep -o '[0-9]+'))
+cardano-cli shelley node key-gen-KES \
+--verification-key-file kes-$KESCOUNTER.vkey \
+--signing-key-file kes-$KESCOUNTER.skey
+
+echo '========================================================='
 echo 'Re-Generating Stake Pool Operational Certificate'
 echo '========================================================='
-CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | egrep -o '[0-9]+' | head -n 1)
-SLOTS_PER_KESPERIOD=$(cat ~/node/config/genesis.json | grep slotsPerKESPeriod | egrep -o '[0-9]+')
+SLOTS_PER_KESPERIOD=$(cat ~/node/config/sgenesis.json | jq -r .slotsPerKESPeriod)
+CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | jq -r .slotNo)
 KESP=$(expr $CTIP / $SLOTS_PER_KESPERIOD)
 cardano-cli shelley node issue-op-cert \
 --kes-verification-key-file ~/kc/kes.vkey \
@@ -12,6 +20,8 @@ cardano-cli shelley node issue-op-cert \
 --operational-certificate-issue-counter ~/kc/cold.counter \
 --kes-period $KESP --out-file ~/kc/node.cert
 
-echo $(date --iso-8601=seconds) $(cat ~/kc/cold.counter | sed -n 2p) >> ~/kc/keskeyrot.log
+cp kes-$KESCOUNTER.skey kes.skey
+
+echo $(date --iso-8601=seconds) $KESCOUNTER >> ~/kc/keskeyop.log
 
 # Don't forget to restart your node after this - sudo systemctl restart cnode-core

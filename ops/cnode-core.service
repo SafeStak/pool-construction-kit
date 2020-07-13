@@ -5,7 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 User=ss
-EnvironmentFile=/home/ss/node/config/stn-core.environment
+EnvironmentFile=/home/ss/node/config/cnode-core.environment
 ExecStart=/usr/bin/screen -U -DmS cnode /home/ss/.local/bin/cardano-node run --config $CONFIG --topology $TOPOLOGY --database-path $DBPATH --socket-path $SOCKETPATH --host-addr $HOSTADDR --port $PORT --shelley-kes-key $KESKEY --shelley-vrf-key $VRFKEY --shelley-operational-certificate $OPCERT
 LimitNOFILE=32768
 

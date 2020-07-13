@@ -5,7 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 User=ss
-EnvironmentFile=/home/ss/node/config/stn-relay.environment
+EnvironmentFile=/home/ss/node/config/cnode-relay.environment
 ExecStart=/usr/bin/screen -U -DmS cnode /home/ss/.local/bin/cardano-node run --config $CONFIG --topology $TOPOLOGY --database-path $DBPATH --socket-path $SOCKETPATH --host-addr $HOSTADDR --port $PORT
 LimitNOFILE=32768
 
