@@ -26,7 +26,7 @@ echo '========================================================='
 cardano-cli shelley query protocol-parameters --testnet-magic 42 --cardano-mode --out-file protocol.json 
 
 echo '========================================================='
-echo 'Generating Stake Pool Registration Certificate'
+echo 'Generating Staking Registration Certificate'
 echo '========================================================='
 cardano-cli shelley stake-address registration-certificate --stake-verification-key-file stake.vkey --out-file stake.cert
 

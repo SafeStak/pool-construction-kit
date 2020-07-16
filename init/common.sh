@@ -6,7 +6,7 @@ echo 'Main Dependencies'
 echo '========================================================='
 sudo apt-get update -y
 sudo apt-get upgrade -y
-sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 libsodium-dev chrony -y
+sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony -y
 
 echo '========================================================='
 echo 'Applying Security Updates / Patches'
@@ -51,6 +51,19 @@ tar -xf ghc-8.6.5-x86_64-deb9-linux.tar.xz
 cd ghc-8.6.5
 ./configure
 sudo make install
+
+echo '========================================================='
+echo 'Building and Publishing libsodium Dependency'
+echo '========================================================='
+cd ~/setup/
+git clone https://github.com/input-output-hk/libsodium
+cd libsodium
+git checkout 66f017f1
+./autogen.sh
+./configure
+make
+sudo make install
+export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 echo '========================================================='
 echo 'Building and Publishing Cardano Binaries'
