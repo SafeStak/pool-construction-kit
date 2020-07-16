@@ -6,7 +6,7 @@ echo 'Main Dependencies'
 echo '========================================================='
 sudo apt-get update -y
 sudo apt-get upgrade -y
-sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony -y
+sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony libtool -y
 
 echo '========================================================='
 echo 'Applying Security Updates / Patches'
@@ -57,7 +57,7 @@ sudo make install
 echo '========================================================='
 echo 'Building and Publishing libsodium Dependency'
 echo '========================================================='
-cd ~/setup/
+cd ~/git/
 git clone https://github.com/input-output-hk/libsodium
 cd libsodium
 git checkout 66f017f1
@@ -84,12 +84,12 @@ echo '========================================================='
 mkdir -p ~/node/config
 mkdir -p ~/node/socket
 cd ~/node/config
-wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/shelley_testnet-config.json
-wget -O genesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/shelley_testnet-genesis.json
-wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/shelley_testnet-topology.json
+wget -O config.json https://hydra.iohk.io/build/3462018/download/1/shelley_testnet-config.json
+wget -O genesis.json https://hydra.iohk.io/build/3462018/download/1/shelley_testnet-shelley-genesis.json
+wget -O topology.json https://hydra.iohk.io/build/3462018/download/1/shelley_testnet-topology.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
 sed -i 's/"ViewMode": "SimpleView"/"ViewMode": "LiveView"/g' config.json
-sed -i 's/shelley_testnet-genesis/genesis/g' config.json
+sed -i 's/shelley_testnet-shelley-genesis/genesis/g' config.json
 
 echo '========================================================='
 echo 'Updating PATH to binaries and setting socket env variable'

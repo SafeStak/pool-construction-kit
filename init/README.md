@@ -11,8 +11,8 @@ cd $HOME
 mkdir -p git
 cd git
 git clone https://github.com/SafeStak/pool-construction-kit
-git checkout stn-1.15.1-basic
 cd pool-construction-kit/init
+git checkout stn-1.15.1-basic
 bash common.sh
 ```
 ## Relay nodes
