@@ -185,13 +185,6 @@ resource "azurerm_network_interface_security_group_association" "relay0nicnsg" {
   network_security_group_id = azurerm_network_security_group.relaynsg.id
 }
 
-# Network Watcher for location
-resource "azurerm_network_watcher" "nwatcher" {
-  name                = "${var.resource-prefix}-nwatcher"
-  location            = var.pool-location
-  resource_group_name = azurerm_resource_group.rg.name
-}
-
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "corestorage" {
   name                     = "${var.storage-prefix}cstor"
