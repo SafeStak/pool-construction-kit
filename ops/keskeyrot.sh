@@ -24,6 +24,6 @@ cp kes-$KESCOUNTER.skey kes.skey
 
 echo $(date --iso-8601=seconds) $KESCOUNTER >> ~/kc/keskeyop.log
 
-# scp -i SSH.pem /home/YOUR_NAME/kc/POOL/kes.skey YOUR_REMOTE_NAME@20.54.24.228:/home/YOUR_REMOTE_NAME/kc/POOL/ 
+# scp -i ssh.pem /home/YOURLOCALNAME/kc/SAFE/kes.skey ss@YOURIP:/home/YOURREMOTENAME/kc/ 
 
 # Don't forget to restart your node after this - sudo systemctl restart cnode-core

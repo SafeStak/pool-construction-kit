@@ -126,7 +126,7 @@ echo $(date --iso-8601=seconds) $KESCOUNTER >> keskeyop.log
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --shelley-mode | tail -n 1)
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --shelley-mode | sed -n 3p)
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
