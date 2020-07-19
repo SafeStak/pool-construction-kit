@@ -23,7 +23,7 @@ cardano-cli shelley stake-address build \
 echo '========================================================='
 echo 'Generating Protocol Parameters'
 echo '========================================================='
-cardano-cli shelley query protocol-parameters --testnet-magic 42 --cardano-mode --out-file protocol.json 
+cardano-cli shelley query protocol-parameters --testnet-magic 42 --shelley-mode --out-file protocol.json 
 
 echo '========================================================='
 echo 'Generating Staking Registration Certificate'
@@ -33,7 +33,7 @@ cardano-cli shelley stake-address registration-certificate --stake-verification-
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --cardano-mode | tail -n 1)
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --shelley-mode | tail -n 1)
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -77,7 +77,7 @@ echo '========================================================='
 cardano-cli shelley transaction submit \
 --tx-file tx.signed \
 --testnet-magic 42 \
---cardano-mode
+--shelley-mode
 
 echo '========================================================='
 echo 'Generating Cold Keys and a Cold Counter'
@@ -127,7 +127,7 @@ echo $(date --iso-8601=seconds) $KESCOUNTER >> ~/kc/keskeyop.log
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --cardano-mode | tail -n 1)
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --shelley-mode | tail -n 1)
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -202,7 +202,7 @@ echo 'Submitting transaction'
 echo '========================================================='
 cardano-cli shelley transaction submit \
 --tx-file SAFE.tx.signed \
---cardano-mode \
+--shelley-mode \
 --testnet-magic 42
 echo '========================================================='
 echo 'Verify pool creation'

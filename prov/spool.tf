@@ -308,4 +308,3 @@ output "r0pip" {
   description = "Relay VM Public IP Address"
   sensitive   = false
 }
-
