@@ -10,7 +10,7 @@ echo 'Main Dependencies'
 echo '========================================================='
 sudo apt-get update -y
 sudo apt-get upgrade -y
-sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony libtool -y
+sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony libtool autoconf -y
 
 echo '========================================================='
 echo 'Ensuring the pool construction kit exists'
@@ -71,7 +71,7 @@ cd ~/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
 git fetch --all --tags
-git checkout tags/1.15.1
+git checkout release/1.16.x
 echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" > cabal.project.local
 ~/.local/bin/cabal install cardano-node cardano-cli --installdir=$HOME/.local/bin/ --overwrite-policy=always  # Takes 15+ mins first time around
 
@@ -81,10 +81,10 @@ echo '========================================================='
 mkdir -p ~/node/config
 mkdir -p ~/node/socket
 cd ~/node/config
-wget -O topology.json https://hydra.iohk.io/build/3413883/download/1/mainnet_candidate-topology.json
-wget -O sgenesis.json https://hydra.iohk.io/build/3413883/download/1/mainnet_candidate-shelley-genesis.json
-wget -O bgenesis.json https://hydra.iohk.io/build/3413883/download/1/mainnet_candidate-byron-genesis.json
-wget -O config.json https://hydra.iohk.io/build/3413883/download/1/mainnet_candidate-config.json
+wget -O topology.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-topology.json
+wget -O sgenesis.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-shelley-genesis.json
+wget -O bgenesis.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-byron-genesis.json
+wget -O config.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-config.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
 sed -i 's/"ViewMode": "SimpleView"/"ViewMode": "LiveView"/g' config.json
 sed -i 's/mainnet_candidate-shelley-genesis/sgenesis/g' config.json
