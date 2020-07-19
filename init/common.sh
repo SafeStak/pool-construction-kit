@@ -1,5 +1,9 @@
 #!/bin/bash
 # Note: One-off execution only! Do not run more than once even in case of failures
+echo '========================================================='
+echo 'Applying Security Updates / Patches'
+echo '========================================================='
+sudo unattended-upgrade
 
 echo '========================================================='
 echo 'Main Dependencies'
@@ -7,11 +11,6 @@ echo '========================================================='
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony libtool -y
-
-echo '========================================================='
-echo 'Applying Security Updates / Patches'
-echo '========================================================='
-sudo unattended-upgrade
 
 echo '========================================================='
 echo 'Ensuring the pool construction kit exists'
