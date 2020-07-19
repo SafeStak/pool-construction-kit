@@ -13,12 +13,12 @@ cardano-cli shelley stake-address key-gen --verification-key-file stake.vkey --s
 cardano-cli shelley address build \
  --payment-verification-key-file payment.vkey \
  --stake-verification-key-file stake.vkey \
- --mainnet \
- --out-file payment.addr
+ --testnet-magic 42 \
+ --out-file paymentstn.addr
 cardano-cli shelley stake-address build \
  --stake-verification-key-file stake.vkey \
- --mainnet \
- --out-file stake.addr
+ --testnet-magic 42 \
+ --out-file stakestn.addr
 
 echo '========================================================='
 echo 'Generating Protocol Parameters'
@@ -113,7 +113,7 @@ cardano-cli shelley stake-address delegation-certificate \
 echo '========================================================='
 echo 'Generating Stake Pool Operational Certificate'
 echo '========================================================='
-SLOTS_PER_KESPERIOD=$(cat ~/node/config/sgenesis.json | jq -r .slotsPerKESPeriod)
+SLOTS_PER_KESPERIOD=$(cat ~/node/config/genesis.json | jq -r .slotsPerKESPeriod)
 CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | jq -r .slotNo)
 KESP=$(expr $CTIP / $SLOTS_PER_KESPERIOD) # SLOTS_PER_KESPERIOD=3600 at time of writing  
 cardano-cli shelley node issue-op-cert \
