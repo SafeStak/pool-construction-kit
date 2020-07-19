@@ -5,20 +5,19 @@
 echo '========================================================='
 echo 'Generating Core Keys and Addresses'
 echo '========================================================='
-cd $HOME
-mkdir -p kc
-cd kc
+mkdir -p ~/kc/SAFE
+cd ~/kc/SAFE
 cardano-cli shelley address key-gen --verification-key-file payment.vkey --signing-key-file payment.skey
 cardano-cli shelley stake-address key-gen --verification-key-file stake.vkey --signing-key-file stake.skey
 cardano-cli shelley address build \
  --payment-verification-key-file payment.vkey \
  --stake-verification-key-file stake.vkey \
  --testnet-magic 42 \
- --out-file paymentstn.addr
+ --out-file payment.addr
 cardano-cli shelley stake-address build \
  --stake-verification-key-file stake.vkey \
  --testnet-magic 42 \
- --out-file stakestn.addr
+ --out-file stake.addr
 
 echo '========================================================='
 echo 'Generating Protocol Parameters'
@@ -97,7 +96,7 @@ cardano-cli shelley node key-gen-VRF \
 echo '========================================================='
 echo 'Generating KES Key pair'
 echo '========================================================='
-KESCOUNTER=$(printf "%06d" $(cat ~/kc/cold.counter | jq -r .description | egrep -o '[0-9]+'))
+KESCOUNTER=$(printf "%06d" $(cat cold.counter | jq -r .description | egrep -o '[0-9]+'))
 cardano-cli shelley node key-gen-KES \
 --verification-key-file kes-$KESCOUNTER.vkey \
 --signing-key-file kes-$KESCOUNTER.skey
@@ -122,7 +121,7 @@ cardano-cli shelley node issue-op-cert \
 --operational-certificate-issue-counter cold.counter \
 --kes-period $KESP --out-file node.cert
 cp kes-$KESCOUNTER.skey kes.skey
-echo $(date --iso-8601=seconds) $KESCOUNTER >> ~/kc/keskeyop.log
+echo $(date --iso-8601=seconds) $KESCOUNTER >> keskeyop.log
 
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
@@ -146,16 +145,14 @@ METAHASH=$(cardano-cli shelley stake-pool metadata-hash --pool-metadata-file SAF
 echo '========================================================='
 echo 'Generating transaction for Stake Pool Operation Certificate Pool Deposit'
 echo '========================================================='
-PLEDGE=500000000000 # 0.5M ADA
+PLEDGE=190000000000 # 0.5M ADA
 cardano-cli shelley stake-pool registration-certificate \
 --cold-verification-key-file cold.vkey \
 --vrf-verification-key-file vrf.vkey \
 --pool-pledge $PLEDGE --pool-cost 228000000 --pool-margin 0.046 \
 --pool-reward-account-verification-key-file stake.vkey \
 --pool-owner-stake-verification-key-file stake.vkey \
---single-host-pool-relay r0.eun.mnc.safestak.com \
---pool-relay-port 3001 \
---single-host-pool-relay r1.eun.mnc.safestak.com \
+--single-host-pool-relay r0.eun.stn2.safestak.com \
 --pool-relay-port 3001 \
 --metadata-url https://www.safestak.com/SAFE.json \
 --metadata-hash $(echo $METAHASH) \

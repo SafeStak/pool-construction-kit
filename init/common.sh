@@ -10,7 +10,7 @@ echo 'Main Dependencies'
 echo '========================================================='
 sudo apt-get update -y
 sudo apt-get upgrade -y
-sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony libtool -y
+sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony libtool autoconf -y
 
 echo '========================================================='
 echo 'Ensuring the pool construction kit exists'
