@@ -9,16 +9,23 @@ cd $HOME
 mkdir -p kc
 cd kc
 cardano-cli shelley address key-gen --verification-key-file payment.vkey --signing-key-file payment.skey
+chmod 400 payment.skey payment.vkey
+
 cardano-cli shelley stake-address key-gen --verification-key-file stake.vkey --signing-key-file stake.skey
+chmod 400 stake.skey stake.vkey
+
 cardano-cli shelley address build \
  --payment-verification-key-file payment.vkey \
  --stake-verification-key-file stake.vkey \
  --mainnet \
  --out-file payment.addr
+chmod 400 payment.addr
+
 cardano-cli shelley stake-address build \
  --stake-verification-key-file stake.vkey \
  --mainnet \
  --out-file stake.addr
+chmod 400 stake.addr
 
 echo '========================================================='
 echo 'Generating Protocol Parameters'
@@ -29,6 +36,7 @@ echo '========================================================='
 echo 'Generating Staking Registration Certificate'
 echo '========================================================='
 cardano-cli shelley stake-address registration-certificate --stake-verification-key-file stake.vkey --out-file stake.cert
+chmod 400 stake.cert
 
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'

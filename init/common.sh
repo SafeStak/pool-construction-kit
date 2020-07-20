@@ -81,10 +81,10 @@ echo '========================================================='
 mkdir -p ~/node/config
 mkdir -p ~/node/socket
 cd ~/node/config
-wget -O topology.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-topology.json
-wget -O sgenesis.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-shelley-genesis.json
-wget -O bgenesis.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-byron-genesis.json
-wget -O config.json https://hydra.iohk.io/build/3519218/download/1/mainnet_candidate-config.json
+wget -O topology.json https://hydra.iohk.io/build/3518809/download/1/mainnet_candidate-topology.json
+wget -O sgenesis.json https://hydra.iohk.io/build/3518809/download/1/mainnet_candidate-shelley-genesis.json
+wget -O bgenesis.json https://hydra.iohk.io/build/3518809/download/1/mainnet_candidate-byron-genesis.json
+wget -O config.json https://hydra.iohk.io/build/3518809/download/1/mainnet_candidate-config.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
 sed -i 's/"ViewMode": "SimpleView"/"ViewMode": "LiveView"/g' config.json
 sed -i 's/mainnet_candidate-shelley-genesis/sgenesis/g' config.json
