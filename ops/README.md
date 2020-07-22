@@ -54,7 +54,7 @@ sudo systemctl enable cnode-core
 journalctl -u cnode-core
 
 ## KES Key Rotation
-For the testnets KES key rotation is done live on the core node by simply running [keskeyrot.sh](./keskeyrot.sh) but on mainnet the node.cert will be generated offline (where cold keys will reside) based on a separately queried $KESP value and transferred securely across to the core node.
+KES key rotation should be done on an offline PC by running [keskeyrot.sh](./keskeyrot.sh) based on a separately queried $KESP value and transferred securely across to the core node.
 
 ## Checking rewards
 ```
