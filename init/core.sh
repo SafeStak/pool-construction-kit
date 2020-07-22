@@ -94,6 +94,7 @@ cardano-cli shelley node key-gen \
 --cold-verification-key-file cold.vkey \
 --cold-signing-key-file cold.skey \
 --operational-certificate-issue-counter-file cold.counter
+chmod 400 cold.skey
 
 echo '========================================================='
 echo 'Generating VRF Key pair'
@@ -154,11 +155,11 @@ METAHASH=$(cardano-cli shelley stake-pool metadata-hash --pool-metadata-file SAF
 echo '========================================================='
 echo 'Generating transaction for Stake Pool Operation Certificate Pool Deposit'
 echo '========================================================='
-PLEDGE=500000000000 # 0.5M ADA
+PLEDGE=550000000000 # 0.5M ADA
 cardano-cli shelley stake-pool registration-certificate \
 --cold-verification-key-file cold.vkey \
 --vrf-verification-key-file vrf.vkey \
---pool-pledge $PLEDGE --pool-cost 228000000 --pool-margin 0.046 \
+--pool-pledge $PLEDGE --pool-cost 228000000 --pool-margin 0.039 \
 --pool-reward-account-verification-key-file stake.vkey \
 --pool-owner-stake-verification-key-file stake.vkey \
 --single-host-pool-relay r0.eun.mnc.safestak.com \
