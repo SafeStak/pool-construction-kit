@@ -159,7 +159,7 @@ PLEDGE=550000000000 # 0.5M ADA
 cardano-cli shelley stake-pool registration-certificate \
 --cold-verification-key-file cold.vkey \
 --vrf-verification-key-file vrf.vkey \
---pool-pledge $PLEDGE --pool-cost 228000000 --pool-margin 0.039 \
+--pool-pledge $PLEDGE --pool-cost 340000000 --pool-margin 0.03 \
 --pool-reward-account-verification-key-file stake.vkey \
 --pool-owner-stake-verification-key-file stake.vkey \
 --single-host-pool-relay r0.eun.mnc.safestak.com \
