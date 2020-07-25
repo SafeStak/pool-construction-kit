@@ -106,7 +106,7 @@ cardano-cli shelley node key-gen-VRF \
 echo '========================================================='
 echo 'Generating KES Key pair'
 echo '========================================================='
-KESCOUNTER=$(printf "%06d" $(cat ~/kc/cold.counter | jq -r .description | egrep -o '[0-9]+'))
+KESCOUNTER=$(printf "%06d" $(cat cold.counter | jq -r .description | egrep -o '[0-9]+'))
 cardano-cli shelley node key-gen-KES \
 --verification-key-file kes-$KESCOUNTER.vkey \
 --signing-key-file kes-$KESCOUNTER.skey
@@ -131,7 +131,7 @@ cardano-cli shelley node issue-op-cert \
 --operational-certificate-issue-counter cold.counter \
 --kes-period $KESP --out-file node.cert
 cp kes-$KESCOUNTER.skey kes.skey
-echo $(date --iso-8601=seconds) $KESCOUNTER >> ~/kc/keskeyop.log
+echo $(date --iso-8601=seconds) $KESCOUNTER >> keskeyop.log
 
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
