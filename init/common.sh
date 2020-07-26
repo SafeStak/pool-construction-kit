@@ -71,7 +71,7 @@ cd ~/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
 git fetch --all --tags
-git checkout tags/1.17.0
+git checkout release/1.18.x
 echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" > cabal.project.local
 ~/.local/bin/cabal install cardano-node cardano-cli --installdir=$HOME/.local/bin/ --overwrite-policy=always  # Takes 15+ mins first time around
 
@@ -81,14 +81,14 @@ echo '========================================================='
 mkdir -p ~/node/config
 mkdir -p ~/node/socket
 cd ~/node/config
-wget -O topology.json https://hydra.iohk.io/build/3596468/download/1/mainnet_candidate_3-topology.json
-wget -O sgenesis.json https://hydra.iohk.io/build/3596468/download/1/mainnet_candidate_3-shelley-genesis.json
-wget -O bgenesis.json https://hydra.iohk.io/build/3596468/download/1/mainnet_candidate_3-byron-genesis.json
-wget -O config.json https://hydra.iohk.io/build/3596468/download/1/mainnet_candidate_3-config.json
+wget -O topology.json https://hydra.iohk.io/build/3624229/download/1/mainnet_candidate_4-topology.json
+wget -O sgenesis.json https://hydra.iohk.io/build/3624229/download/1/mainnet_candidate_4-shelley-genesis.json
+wget -O bgenesis.json https://hydra.iohk.io/build/3624229/download/1/mainnet_candidate_4-byron-genesis.json
+wget -O config.json https://hydra.iohk.io/build/3624229/download/1/mainnet_candidate_4-config.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
 sed -i 's/"ViewMode": "SimpleView"/"ViewMode": "LiveView"/g' config.json
-sed -i 's/mainnet_candidate_3-shelley-genesis/sgenesis/g' config.json
-sed -i 's/mainnet_candidate_3-byron-genesis/bgenesis/g' config.json
+sed -i 's/mainnet_candidate_4-shelley-genesis/sgenesis/g' config.json
+sed -i 's/mainnet_candidate_4-byron-genesis/bgenesis/g' config.json
 
 echo '========================================================='
 echo 'Updating PATH to binaries and setting socket env variable'

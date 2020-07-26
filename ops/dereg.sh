@@ -12,11 +12,20 @@ cardano-cli shelley stake-pool deregistration-certificate \
 --out-file pool.dereg
 
 echo '========================================================='
+echo 'Querying utxo details of payment.addr'
+echo '========================================================='​
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 | sed -n 4p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
+UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
+UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
+UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
+echo $UTXO0
+
+echo '========================================================='
 echo 'Calculating minimum fee'
 echo '========================================================='
 TTL=$(expr $CTIP + 1000)
 rm dummy.txbody 2> /dev/null
-cardano-cli shelley transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat paymentstn.addr)+0 --ttl ${TTL} --fee 0 --certificate-file pool.dereg --out-file dummy.txbody
+cardano-cli shelley transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+0 --ttl ${TTL} --fee 0 --certificate-file pool.dereg --out-file dummy.txbody
 FEE=$(cardano-cli shelley transaction calculate-min-fee \
 --tx-body-file dummy.txbody \
 --tx-in-count 1 \
@@ -32,7 +41,7 @@ echo '========================================================='
 TXOUT=$(expr $UTXO0V - $FEE) 
 cardano-cli shelley transaction build-raw \
 --certificate-file pool.dereg \
---tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat paymentstn.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file SAFE.dereg.tx.raw
+--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file SAFE.dereg.tx.raw
 echo '========================================================='
 echo 'Signing transaction'
 echo '========================================================='
