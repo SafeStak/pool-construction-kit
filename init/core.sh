@@ -30,7 +30,7 @@ chmod 400 stake.addr
 echo '========================================================='
 echo 'Generating Protocol Parameters'
 echo '========================================================='
-cardano-cli shelley query protocol-parameters --testnet-magic 42 --cardano-mode --out-file protocol.json 
+cardano-cli shelley query protocol-parameters --mainnet --cardano-mode --out-file protocol.json 
 
 echo '========================================================='
 echo 'Generating Staking Registration Certificate'
@@ -41,7 +41,7 @@ chmod 400 stake.cert
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --cardano-mode | tail -n 1)
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --mainnet --cardano-mode | tail -n 1)
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -50,7 +50,7 @@ echo $UTXO0
 echo '========================================================='
 echo 'Calculating minimum fee'
 echo '========================================================='
-CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | jq -r .slotNo)
+CTIP=$(cardano-cli shelley query tip --mainnet | jq -r .slotNo)
 TTL=$(expr $CTIP + 1000)
 rm dummy.txbody 2> /dev/null
 cardano-cli shelley transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+0 --ttl ${TTL} --fee 0 --certificate stake.cert --out-file dummy.txbody
@@ -60,11 +60,11 @@ FEE=$(cardano-cli shelley transaction calculate-min-fee \
 --tx-out-count 1 \
 --witness-count 2 \
 --byron-witness-count 0 \
---testnet-magic 42 \
+--mainnet \
 --protocol-params-file protocol.json | egrep -o '[0-9]+')
 
 echo '========================================================='
-echo 'Generating transaction for Stake Pool Registration Key Deposit'
+echo 'Generating transaction for Staking Key Deposit'
 echo '========================================================='
 KEY_DEPOSIT=$(cat protocol.json | grep keyDeposit | egrep -o '[0-9]+')
 TXOUT=$(expr $UTXO0V - $FEE - $KEY_DEPOSIT) # KEY_DEPOSIT=400000 at time of writing 
@@ -77,14 +77,14 @@ cardano-cli shelley transaction sign \
 --tx-body-file tx.raw \
 --signing-key-file payment.skey \
 --signing-key-file stake.skey \
---testnet-magic 42 \
+--mainnet \
 --out-file tx.signed
 echo '========================================================='
 echo 'Submitting transaction'
 echo '========================================================='
 cardano-cli shelley transaction submit \
 --tx-file tx.signed \
---testnet-magic 42 \
+--mainnet \
 --cardano-mode
 
 echo '========================================================='
@@ -123,7 +123,7 @@ echo '========================================================='
 echo 'Generating Stake Pool Operational Certificate'
 echo '========================================================='
 SLOTS_PER_KESPERIOD=$(cat ~/node/config/sgenesis.json | jq -r .slotsPerKESPeriod)
-CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | jq -r .slotNo)
+CTIP=$(cardano-cli shelley query tip --mainnet | jq -r .slotNo)
 KESP=$(expr $CTIP / $SLOTS_PER_KESPERIOD) # SLOTS_PER_KESPERIOD=3600 at time of writing  
 cardano-cli shelley node issue-op-cert \
 --hot-kes-verification-key-file kes-$KESCOUNTER.vkey \
@@ -136,7 +136,7 @@ echo $(date --iso-8601=seconds) $KESCOUNTER >> keskeyop.log
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 --cardano-mode | tail -n 1)
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --mainnet --cardano-mode | tail -n 1)
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -149,32 +149,32 @@ echo $UTXO0
 echo '========================================================='
 echo 'Generating Stake Pool Metadata'
 echo '========================================================='
-wget https://www.safestak.com/SAFE.json # Should be your JSON file
+wget https://www.safestak.com/SAFE.json 
 METAHASH=$(cardano-cli shelley stake-pool metadata-hash --pool-metadata-file SAFE.json)
 
 echo '========================================================='
 echo 'Generating transaction for Stake Pool Operation Certificate Pool Deposit'
 echo '========================================================='
-PLEDGE=550000000000 # 0.5M ADA
+PLEDGE=550000000000 # 550K ADA
 cardano-cli shelley stake-pool registration-certificate \
 --cold-verification-key-file cold.vkey \
 --vrf-verification-key-file vrf.vkey \
---pool-pledge $PLEDGE --pool-cost 340000000 --pool-margin 0.03 \
+--pool-pledge $PLEDGE --pool-cost 340000000 --pool-margin 0.028 \
 --pool-reward-account-verification-key-file stake.vkey \
 --pool-owner-stake-verification-key-file stake.vkey \
---single-host-pool-relay r0.eun.mnc.safestak.com \
+--single-host-pool-relay r0.eun.live.safestak.com \
 --pool-relay-port 3001 \
---single-host-pool-relay r1.eun.mnc.safestak.com \
+--single-host-pool-relay r1.eun.live.safestak.com \
 --pool-relay-port 3001 \
 --metadata-url https://www.safestak.com/SAFE.json \
 --metadata-hash $(echo $METAHASH) \
---testnet-magic 42 \
+--mainnet \
 --out-file pool.cert
 
 echo '========================================================='
 echo 'Calculating minimum fee'
 echo '========================================================='
-CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | jq -r .slotNo)
+CTIP=$(cardano-cli shelley query tip --mainnet | jq -r .slotNo)
 TTL=$(expr $CTIP + 1000)
 rm dummy.txbody 2> /dev/null
 cardano-cli shelley transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+0 --ttl ${TTL} --fee 0 --certificate-file pool.cert --certificate-file delegation.cert --out-file dummy.txbody
@@ -184,7 +184,7 @@ FEE=$(cardano-cli shelley transaction calculate-min-fee \
 --tx-out-count 1 \
 --witness-count 2 \
 --byron-witness-count 0 \
---testnet-magic 42 \
+--mainnet \
 --protocol-params-file protocol.json | egrep -o '[0-9]+')
 
 echo '========================================================='
@@ -204,7 +204,7 @@ cardano-cli shelley transaction sign \
 --signing-key-file cold.skey \
 --signing-key-file payment.skey \
 --signing-key-file stake.skey \
---testnet-magic 42 \
+--mainnet \
 --out-file SAFE.tx.signed
 echo '========================================================='
 echo 'Submitting transaction'
@@ -212,7 +212,7 @@ echo '========================================================='
 cardano-cli shelley transaction submit \
 --tx-file SAFE.tx.signed \
 --cardano-mode \
---testnet-magic 42
+--mainnet
 echo '========================================================='
 echo 'Verify pool creation'
 echo '========================================================='

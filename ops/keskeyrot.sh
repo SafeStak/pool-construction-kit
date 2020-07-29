@@ -12,7 +12,7 @@ echo '========================================================='
 echo 'Re-Generating Stake Pool Operational Certificate'
 echo '========================================================='
 SLOTS_PER_KESPERIOD=$(cat ~/node/config/sgenesis.json | jq -r .slotsPerKESPeriod)
-CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | jq -r .slotNo) # Currently has to run separately on an online device TODO: Use https://github.com/gitmachtl/scripts/blob/master/cardano/mainnet-release-candidate/0x_showCurrentEpochKES.sh for offline
+CTIP=$(cardano-cli shelley query tip --mainnet | jq -r .slotNo) # Currently has to run separately on an online device TODO: Use https://github.com/gitmachtl/scripts/blob/master/cardano/mainnet-release-candidate/0x_showCurrentEpochKES.sh for offline
 KESP=$(expr $CTIP / $SLOTS_PER_KESPERIOD)
 cardano-cli shelley node issue-op-cert \
 --kes-verification-key-file ~/kc/kes-$KESCOUNTER.vkey \

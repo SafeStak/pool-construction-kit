@@ -1,29 +1,9 @@
 {
   "Producers": [
     {
-      "addr": "relays-new.mainnet-candidate.dev.cardano.org",
+      "addr": "relays-new.cardano-mainnet.iohk.io",
       "port": 3001,
       "valency": 2
-    },
-    {
-      "addr": "relay.trustedpoolpeer0.org",
-      "port": 3001,
-      "valency": 1
-    },
-    {
-      "addr": "relay.trustedpoolpeer1.org",
-      "port": 3001,
-      "valency": 1
-    },
-    {
-      "addr": "relay.trustedpoolpeer2.org",
-      "port": 3001,
-      "valency": 1
-    },
-    {
-      "addr": "${var.core-address}",
-      "port": {var.core-node-port},
-      "valency": 1
     }
   ]
 }

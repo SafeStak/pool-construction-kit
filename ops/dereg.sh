@@ -1,7 +1,7 @@
 #!/bin/bash
-EPOCH_LEN=$(cat ~/node/config/genesis.json | grep epoch | egrep -o '[0-9]+')
+EPOCH_LEN=$(cat ~/node/config/sgenesis.json | grep epoch | egrep -o '[0-9]+')
 CTIP=$(cardano-cli shelley query tip --testnet-magic 42 | jq -r .slotNo)
-DEREG_EPOCH=$(expr $CTIP / $EPOCH_LEN  + 2) # De-register it Two epochs from now - extend if required
+DEREG_EPOCH=$(expr $CTIP / $EPOCH_LEN  + 10) # De-register it Two epochs from now - extend if required
 
 echo '========================================================='
 echo 'Generating De-registration cert'
@@ -14,7 +14,7 @@ cardano-cli shelley stake-pool deregistration-certificate \
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 | sed -n 4p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
+UTXO0=$(cardano-cli shelley query utxo --address $(cat payment.addr) --testnet-magic 42 | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -56,5 +56,5 @@ echo 'Submitting transaction'
 echo '========================================================='
 cardano-cli shelley transaction submit \
 --tx-file SAFE.dereg.tx.signed \
---shelley-mode \
+--cardano-mode \
 --testnet-magic 42
