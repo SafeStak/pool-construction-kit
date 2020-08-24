@@ -1,6 +1,10 @@
 variable "ssh-whitelist" {
-  type        = string
+  type        = list(string)
   description = "Whitelist IP(s) for SSH access to the nodes. Helpful at the start but strongly recommended for removal later."
+}
+variable "mon-whitelist" {
+  type        = list(string)
+  description = "Whitelist IP(s) for monitoring agents access to nodes via Prometheus metrics data."
 }
 variable "pool-location" {
   type        = string
@@ -24,7 +28,7 @@ variable "corevm-size" {
 }
 variable "corevm-nic-accelerated-networking" {
   type        = string
-  description = "Enable accelerated networking for NIC. Ensure it is supported by VM size."
+  description = "Enable accelerated networking for core node NIC. Ensure it is supported by VM size."
 }
 variable "corevm-comp-name" {
   type        = string
@@ -40,7 +44,7 @@ variable "relayvm-size" {
 }
 variable "relayvm-nic-accelerated-networking" {
   type        = string
-  description = "Enable accelerated networking for NIC. Ensure it is supported by VM size."
+  description = "Enable accelerated networking for relay node NIC. Ensure it is supported by VM size."
 }
 variable "relayvm-comp-name" {
   type        = string
@@ -49,6 +53,18 @@ variable "relayvm-comp-name" {
 variable "relay-node-port" {
   type        = string
   description = "Port to run the relay node on"
+}
+variable "monvm-size" {
+  type        = string
+  description = "Monitoring node VM size (az vm list-sizes --location $pool-location -o table)"
+}
+variable "monvm-nic-accelerated-networking" {
+  type        = string
+  description = "Enable accelerated networking for monitoring node NIC. Ensure it is supported by VM size."
+}
+variable "monvm-comp-name" {
+  type        = string
+  description = "Monitoring node VM computer name"
 }
 variable "tag-platform" {
   type        = string

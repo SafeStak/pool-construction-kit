@@ -3,7 +3,7 @@
 echo '========================================================='
 echo 'Regenerating KES Key pair'
 echo '========================================================='
-KESCOUNTER=$(printf "%06d" $(cat ~/kc/cold.counter | jq -r .description | egrep -o '[0-9]+'))
+KESCOUNTER=$(printf "%06d" $(cat cold.counter | jq -r .description | egrep -o '[0-9]+'))
 cardano-cli shelley node key-gen-KES \
 --verification-key-file kes-$KESCOUNTER.vkey \
 --signing-key-file kes-$KESCOUNTER.skey

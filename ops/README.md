@@ -10,14 +10,6 @@ cardano-node run \
   --database-path ~/node/db/ \
   --socket-path ~/node/socket/node.socket \
   --host-addr 0.0.0.0 \
-  --port 3000 \
-  --config ~/node/config/config.json
-
-cardano-node run \
-  --topology ~/node/config/topology.json \
-  --database-path ~/node/db/ \
-  --socket-path ~/node/socket/node.socket \
-  --host-addr 0.0.0.0 \
   --port 3001 \
   --config ~/node/config/config.json
 ```
@@ -74,6 +66,6 @@ Some guidance from [this article](https://www.cyberciti.biz/faq/what-process-has
 ### Get Process Info
 `ps aux | grep cardano`
 ### Get Live Network connections on Nodes
-sudo netstat -tpn | grep :300
+`sudo netstat -tpn | grep :300`
 ### Get Network Status
 `sudo ss -tulpn | grep 300` or `netstat -tulpn | grep 300` or `lsof -i :300`

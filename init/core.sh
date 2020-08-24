@@ -1,6 +1,7 @@
 #!/bin/bash
-# Note: One-off execution only! Do not run more than once even in case of failures
-# Don't forget to run `source ~/.bashrc` when running for the first time!`
+# Note: Only useful for testnet setup of core BP nodes
+# For Mainnet GENERATE AND STORE KEYS OFFLINE IN AN AIRTIGHT ENVIRONMENT
+# Use a secure USB to transfer cardano-cli binary to and signed transactions / kes / node.cert from 
 
 echo '========================================================='
 echo 'Generating Core Keys and Addresses'
