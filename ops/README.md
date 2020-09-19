@@ -58,7 +58,7 @@ KES key rotation should be done on an offline PC by running [keskeyrot.sh](./kes
 
 ## Checking rewards
 ```
-cardano-cli shelley query stake-address-info --address $(cat ~/kc/stake.addr) --mainnet
+cardano-cli shelley query stake-address-info --address $(cat stake.addr) --mainnet
 ```
 
 ## Troubleshooting

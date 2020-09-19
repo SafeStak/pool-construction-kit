@@ -17,10 +17,10 @@ echo '========================================================='
 CTIP=$(cardano-cli shelley query tip --mainnet | jq -r .slotNo)
 TTL=$(expr $CTIP + 1000)
 TXOUT=$(expr $UTXO0V - $2) 
-rm dummy.txbody 2> /dev/null
+rm draft.txraw 2> /dev/null
 cardano-cli shelley transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl ${TTL} --fee 0 --out-file dummy.txbody
 FEE=$(cardano-cli shelley transaction calculate-min-fee \
---tx-body-file dummy.txbody \
+--tx-body-file draft.txraw \
 --tx-in-count 1 \
 --tx-out-count 2 \
 --witness-count 1 \
@@ -35,14 +35,18 @@ TXOUT=$(expr $UTXO0V - $FEE - $2)
 # echo "--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file tx.raw"
 cardano-cli shelley transaction build-raw \
 --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file tx.raw
+
+# SHOULD BE DONE OFFLINE FOR VALUABLE KEYS 
 echo '========================================================='
 echo 'Signing transaction'
 echo '========================================================='
 cardano-cli shelley transaction sign \
---tx-body-file tx.raw \
+--tx-body-file tx.txraw \
 --signing-key-file payment.skey \
 --mainnet \
 --out-file tx.signed
+
+# SHOULD BE DONE ONLINE
 echo '========================================================='
 echo 'Submitting transaction'
 echo '========================================================='

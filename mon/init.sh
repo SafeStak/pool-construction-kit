@@ -1,6 +1,10 @@
 #!/bin/bash
-# Note: One-off execution only! Do not run more than once in case of failures
-
+# Note: Update addresses in the Initialising Prometheus Scraping Config section
+# One-off execution only! Do not run more than once in case of failures
+echo
+echo '========================================================='
+echo 'Applying Security Updates  / Patches'
+echo '========================================================='
 sudo unattended-upgrade
 sudo apt-get update -y
 sudo apt-get upgrade -y
@@ -11,10 +15,6 @@ echo 'Getting Prometheus'
 echo '========================================================='
 sudo apt-get install -y prometheus prometheus-alertmanager
 sudo systemctl enable prometheus.service
-
-# To be run on core/relay nodes
-# sudo apt-get install -y prometheus-node-exporter 
-# sudo systemctl enable prometheus-node-exporter.service
 
 echo
 echo '========================================================='
@@ -28,6 +28,11 @@ sudo mv grafana.list /etc/apt/sources.list.d/grafana.list
 sudo apt-get update && sudo apt-get install -y grafana
 sudo systemctl enable grafana-server.service
 
+echo
+echo '========================================================='
+echo 'Initialising Prometheus Scraping Config'
+echo '========================================================='
+# REPLACE IPS WITH YOUR OWN PUBLIC IP ADDRESSES
 cat > prometheus.yml << EOF
 global:
   external_labels:
@@ -39,27 +44,35 @@ scrape_configs:
     static_configs:
       - targets: ['1.1.1.1:9100']
         labels:
-          alias: 'c0-ne'
+          alias: 'core'
       - targets: ['2.2.2.2:9100']
         labels:
-          alias: 'r0-ne'
+          alias: 'relay0'
       - targets: ['3.3.3.3:9100']
         labels:
-          alias: 'r1-ne'
+          alias: 'relay1'
       - targets: ['localhost:9100']
         labels:
-          alias: 'm0-ne'
+          alias: 'mond'
       - targets: ['1.1.1.1:12798']
         labels:
-          alias: 'c0-cn'
+          alias: 'core'
       - targets: ['2.2.2.2:12798']
         labels:
-          alias: 'r0-cn'
+          alias: 'relay0'
       - targets: ['3.3.3.3:12798']
         labels:
-          alias: 'r1-cn'
-EOF
-sudo mv prometheus.yml /etc/prometheus/prometheus.yml
+          alias: 'relay1'
+  - job_name: 'safestats-safe'
+    scrape_interval: 30s
+    metrics_path: 'safestats/v1/pools/74a10b8241fc67a17e189a58421506b7edd629ac490234933afbed97/metrics'
+    static_configs:
+      - targets: ['api.safestak.com']
+        labels:
+          alias: 'SAFE-summary'
+          pool: '74a10b8241fc67a17e189a58421506b7edd629ac490234933afbed97'
 
-sudo systemctl restart grafana-server.service
+EOF
+sudo cp prometheus.yml /etc/prometheus/prometheus.yml
 sudo systemctl restart prometheus.service
+sudo systemctl restart grafana-server.service
