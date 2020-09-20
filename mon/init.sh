@@ -1,6 +1,6 @@
 #!/bin/bash
 # Note: Update addresses in the Initialising Prometheus Scraping Config section
-# One-off execution only! Do not run more than once in case of failures
+# Disclaimer: 
 echo
 echo '========================================================='
 echo 'Applying Security Updates  / Patches'
@@ -63,7 +63,7 @@ scrape_configs:
       - targets: ['3.3.3.3:12798']
         labels:
           alias: 'relay1'
-  - job_name: 'safestats-safe'
+  - job_name: 'safestats-perf'
     scrape_interval: 30s
     metrics_path: 'safestats/v1/pools/74a10b8241fc67a17e189a58421506b7edd629ac490234933afbed97/metrics'
     static_configs:
@@ -74,5 +74,6 @@ scrape_configs:
 
 EOF
 sudo cp prometheus.yml /etc/prometheus/prometheus.yml
+
 sudo systemctl restart prometheus.service
 sudo systemctl restart grafana-server.service
