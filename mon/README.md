@@ -14,10 +14,10 @@
 [This tutorial for monitoring the stake pool](https://cardano-foundation.gitbook.io/stake-pool-course/stake-pool-guide/logging-monitoring). Much of which can be set up with [init.sh](./init.sh) after a few tweaks.
 
 ### Performance Stats
-The top area of the dashboard showing stake pool performance stats relies [on a custom prometheus scraping job](https://github.com/SafeStak/pool-construction-kit/blob/caa122081e9376b4f3e2126bc19203652ed98a7e/mon/init.sh#L66) `safestats-perf`, powered by a custom API that we have built. Until it is hardened for public consumption it is only accessible from our monitoring node but **feel free to Twitter DM @SafeStak or Telegram Keith on @knutty and he will allow your monitoring node IP through our firewall**. Big thanks to adapools.org for temporarily supplying the data until we build our own node backend.
+Much of the top area of the dashboard showing stake pool performance stats relies [on a custom prometheus scraping job](https://github.com/SafeStak/pool-construction-kit/blob/caa122081e9376b4f3e2126bc19203652ed98a7e/mon/init.sh#L66) `safestats-perf`, powered by an API that we have built. Until it is hardened for public consumption it is only accessible by a few pool's and our own monitoring node but **feel free to Twitter DM @SafeStak or Telegram Keith on @knutty and we will allow your monitoring node IP through our firewall**. Big thanks to adapools.org for temporarily supplying the data until we finish building our own node backend.
 
 ### Telegram Alerts
-Alerts are reliant on created a Telegram Bot with the following steps:
+Alerts are reliant on a Telegram Bot created with the following steps:
 * Create a chat with the official Telegram Bot Maker `@BotFather`
 * Run `/start` and `/newbot`, filling in the details for your bot's full name and username
 * Note the API token of the bot
@@ -29,4 +29,4 @@ Alerts are reliant on created a Telegram Bot with the following steps:
 Import the [SAFEBOARD.json](./SAFEBOARD.json) dashboard into Grafana.
 
 ## Best Practices
-Your monitoring node should be physically separate from the rest of your stake pool nodes. with a permitted firewall rule allowing the monitoring node's source IP access to the prometheus metrics ports. 
+Your monitoring node should be _physically_ separate from the rest of your stake pool nodes, in its own subnet with a permitted firewall rule allowing the monitoring node's source IP access to the prometheus metrics ports of your stake pool nodes. 
