@@ -6,6 +6,8 @@
   - CPU% utilisation exceeds 70% for any node
   - Memory% utilisation exceeds 70% for any node
   - Disk space drops below 20GB for any node
+  - KES key is nearing expiry (2 days)
+  - Elected to mint a block but missed
   - Number of peers drop below 2 for any node
 
 ## Pre-requisites 
