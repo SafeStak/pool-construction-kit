@@ -8,7 +8,7 @@ echo
 echo '========================================================='
 echo 'Building Version $1 of the Cardano Binaries'
 echo '========================================================='
-cd ~/ws/cardano-node
+cd ~/git/cardano-node
 git fetch --all --tags
 git checkout "tags/$1"
 

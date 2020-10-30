@@ -176,7 +176,7 @@ echo '========================================================='
 echo 'Calculating minimum fee'
 echo '========================================================='
 CTIP=$(cardano-cli shelley query tip --mainnet | jq -r .slotNo)
-TTL=$(expr $CTIP + 1000)
+TTL=$(expr $CTIP + 1200)
 rm dummy.txbody 2> /dev/null
 cardano-cli shelley transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+0 --ttl ${TTL} --fee 0 --certificate-file pool.cert --certificate-file delegation.cert --out-file dummy.txbody
 FEE=$(cardano-cli shelley transaction calculate-min-fee \
