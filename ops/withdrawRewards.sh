@@ -1,56 +1,70 @@
 #!/bin/bash
 # Note: Run where the payment addr and skey files reside
 # Don't forget to run `source ~/.bashrc` and `export CARDANO_NODE_SOCKET_PATH=~/node/socket/node.socket`
-# Usage: ./sendtx.sh {ADDR} {AMOUNT}
 
 echo '========================================================='
-echo 'Querying utxo details of payment.addr'
-echo '========================================================='​
+echo 'Querying reward details of stake.addr'
+echo '========================================================='
+REWARDAMOUNT=$(cardano-cli query stake-address-info --mainnet --mary-era --address $(cat stake.addr) | jq .[0].rewardAccountBalance)
+echo Rewards $REWARDAMOUNT
+
+echo '========================================================='
+echo 'Querying payment address and calculating new balance'
+echo '========================================================='
 UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet --mary-era | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
-echo $UTXO0
+echo UTXO0H $UTXO0H
+echo UTXO0I $UTXO0I
+echo UTXO0V $UTXO0V
 
 echo '========================================================='
 echo 'Calculating minimum fee'
 echo '========================================================='
-rm draft.txraw 2> /dev/null
-cardano-cli transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+1000000 --ttl 0 --fee 0 --out-file draft.txraw
+rm withdraw_rewards.txraw 2> /dev/null
+NEWBAL=$(expr $UTXO0V + $REWARDAMOUNT)
+cardano-cli transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+$NEWBAL --withdrawal $(cat stake.addr)+$REWARDAMOUNT \
+--ttl 0 \
+--fee 0 \
+--out-file withdraw_rewards.txraw
 FEE=$(cardano-cli transaction calculate-min-fee \
---tx-body-file draft.txraw \
+--mainnet \
+--tx-body-file withdraw_rewards.txraw  \
 --tx-in-count 1 \
---tx-out-count 2 \
+--tx-out-count 1 \
 --witness-count 1 \
 --byron-witness-count 0 \
---mainnet \
 --protocol-params-file protocol.json | egrep -o '[0-9]+')
+echo Fee $FEE
 
 echo '========================================================='
 echo 'Building transaction'
 echo '========================================================='
 CTIP=$(cardano-cli query tip --mainnet | jq -r .slotNo)
 TTL=$(expr $CTIP + 1200)
-TXOUT=$(expr $UTXO0V - $FEE - $2) 
-# echo "--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw"
+NEWBAL=$(expr $UTXO0V + $REWARDAMOUNT - $FEE)
+echo Current Tip $CTIP
+echo TTL $TTL
+echo NEWBAL $NEWBAL
 cardano-cli  transaction build-raw \
---tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw
+--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+$NEWBAL --withdrawal $(cat stake.addr)+$REWARDAMOUNT --ttl $TTL --fee $FEE --out-file withdraw_rewards.txraw
 
-# SHOULD BE DONE OFFLINE FOR VALUABLE KEYS 
+# SHOULD BE DONE OFFLINE 
 echo '========================================================='
 echo 'Signing transaction'
 echo '========================================================='
 cardano-cli transaction sign \
---tx-body-file sendtx.txraw \
---signing-key-file payment.skey \
 --mainnet \
---out-file sendtx.txsigned
+--tx-body-file withdraw_rewards.txraw  \
+--signing-key-file payment.skey \
+--signing-key-file stake.skey \
+--out-file withdraw_rewards.txsigned
 
 # SHOULD BE DONE ONLINE
 echo '========================================================='
 echo 'Submitting transaction'
 echo '========================================================='
 cardano-cli transaction submit \
---tx-file sendtx.txsigned \
---cardano-mode \
---mainnet
+--mainnet \
+--tx-file withdraw_rewards.txsigned

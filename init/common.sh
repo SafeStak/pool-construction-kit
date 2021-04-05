@@ -51,9 +51,9 @@ echo 'Installing GHC'
 echo '========================================================='
 mkdir -p ~/setup/ghc
 cd ~/setup/ghc
-wget https://downloads.haskell.org/~ghc/8.6.5/ghc-8.6.5-x86_64-deb9-linux.tar.xz
-tar -xf ghc-8.6.5-x86_64-deb9-linux.tar.xz
-cd ghc-8.6.5
+wget https://downloads.haskell.org/~ghc/8.10.2/ghc-8.10.2-x86_64-deb9-linux.tar.xz 
+tar -xf ghc-8.10.2-x86_64-deb9-linux.tar.xz 
+cd ghc-8.10.2
 ./configure
 sudo make install
 
@@ -79,11 +79,11 @@ cd ~/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
 git fetch --all --tags
-git checkout tags/1.19.0
+git checkout tags/1.26.1
 echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" > cabal.project.local
 ~/.local/bin/cabal build all
-cp dist-newstyle/build/x86_64-linux/ghc-8.6.5/cardano-cli-1.19.0/x/cardano-cli/build/cardano-cli/cardano-cli ~/.local/bin/
-cp dist-newstyle/build/x86_64-linux/ghc-8.6.5/cardano-node-1.19.0/x/cardano-node/build/cardano-node/cardano-node ~/.local/bin/
+cp dist-newstyle/build/x86_64-linux/ghc-8.10.2/cardano-cli-1.26.1/x/cardano-cli/build/cardano-cli/cardano-cli ~/.local/bin/
+cp dist-newstyle/build/x86_64-linux/ghc-8.10.2/cardano-node-1.26.1/x/cardano-node/build/cardano-node/cardano-node ~/.local/bin/
 
 echo
 echo '========================================================='
@@ -92,12 +92,15 @@ echo '========================================================='
 mkdir -p ~/node/config
 mkdir -p ~/node/socket
 cd ~/node/config
-wget -O topology.json https://hydra.iohk.io/build/3644329/download/1/mainnet-topology.json
-wget -O sgenesis.json https://hydra.iohk.io/build/3644329/download/1/mainnet-shelley-genesis.json
-wget -O bgenesis.json https://hydra.iohk.io/build/3644329/download/1/mainnet-byron-genesis.json
-wget -O config.json https://hydra.iohk.io/build/3644329/download/1/mainnet-config.json
+#wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-config.json
+#wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-byron-genesis.json
+#wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-shelley-genesis.json
+#wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-topology.json
+wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-config.json
+wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-byron-genesis.json
+wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-shelley-genesis.json
+wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-topology.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
-sed -i 's/"ViewMode": "SimpleView"/"ViewMode": "LiveView"/g' config.json
 sed -i 's/mainnet-shelley-genesis/sgenesis/g' config.json
 sed -i 's/mainnet-byron-genesis/bgenesis/g' config.json
 
