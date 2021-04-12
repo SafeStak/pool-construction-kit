@@ -12,7 +12,7 @@ echo 'Main Dependencies'
 echo '========================================================='
 sudo apt-get update -y
 sudo apt-get upgrade -y
-sudo apt-get -y install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 chrony libtool autoconf net-tools prometheus-node-exporter -y
+sudo apt-get install git jq wget curl bc make automake g++ build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev libncursesw5 libncurses-dev libtinfo5 libtool autoconf htop net-tools chrony prometheus-node-exporter -y
 
 echo
 echo '========================================================='
@@ -37,8 +37,8 @@ echo 'Installing Cabal'
 echo '========================================================='
 mkdir -p ~/setup/cabal
 cd ~/setup/cabal
-wget https://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0-x86_64-unknown-linux.tar.xz
-tar -xf cabal-install-3.2.0.0-x86_64-unknown-linux.tar.xz
+wget https://downloads.haskell.org/cabal/cabal-install-3.4.0.0/cabal-install-3.4.0.0-x86_64-ubuntu-16.04.tar.xz
+tar -xf cabal-install-3.4.0.0-x86_64-ubuntu-16.04.tar.xz
 mkdir -p ~/.local/bin
 cp cabal ~/.local/bin/
 ~/.local/bin/cabal update
@@ -51,9 +51,9 @@ echo 'Installing GHC'
 echo '========================================================='
 mkdir -p ~/setup/ghc
 cd ~/setup/ghc
-wget https://downloads.haskell.org/~ghc/8.10.2/ghc-8.10.2-x86_64-deb9-linux.tar.xz 
-tar -xf ghc-8.10.2-x86_64-deb9-linux.tar.xz 
-cd ghc-8.10.2
+wget https://downloads.haskell.org/~ghc/8.10.4/ghc-8.10.4-x86_64-deb10-linux.tar.xz
+tar -xf ghc-8.10.4-x86_64-deb10-linux.tar.xz
+cd ghc-8.10.4
 ./configure
 sudo make install
 

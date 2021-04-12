@@ -24,5 +24,5 @@ echo
 echo '========================================================='
 echo 'Copying cardano-cli cardano-node $1 binaries to ~/.local/bin'
 echo '========================================================='
-cp "dist-newstyle/build/x86_64-linux/ghc-8.10.2/cardano-cli-$1/x/cardano-cli/build/cardano-cli/cardano-cli" ~/.local/bin/
-cp "dist-newstyle/build/x86_64-linux/ghc-8.10.2/cardano-node-$1/x/cardano-node/build/cardano-node/cardano-node" ~/.local/bin/
+cp "dist-newstyle/build/x86_64-linux/ghc-8.10.4/cardano-cli-$1/x/cardano-cli/build/cardano-cli/cardano-cli" ~/.local/bin/
+cp "dist-newstyle/build/x86_64-linux/ghc-8.10.4/cardano-node-$1/x/cardano-node/build/cardano-node/cardano-node" ~/.local/bin/
