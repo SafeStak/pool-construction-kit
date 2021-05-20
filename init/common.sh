@@ -70,6 +70,7 @@ git checkout 66f017f1
 make
 sudo make install
 export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 echo
 echo '========================================================='
@@ -78,12 +79,15 @@ echo '========================================================='
 cd ~/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
-git fetch --all --tags
-git checkout tags/1.26.1
+git fetch --all --recurse-submodules --tags
+git checkout tags/1.27.0
+cabal configure --with-compiler=ghc-8.10.4
 echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" > cabal.project.local
 ~/.local/bin/cabal build all
-cp dist-newstyle/build/x86_64-linux/ghc-8.10.2/cardano-cli-1.26.1/x/cardano-cli/build/cardano-cli/cardano-cli ~/.local/bin/
-cp dist-newstyle/build/x86_64-linux/ghc-8.10.2/cardano-node-1.26.1/x/cardano-node/build/cardano-node/cardano-node ~/.local/bin/
+cp dist-newstyle/build/x86_64-linux/ghc-8.10.4/cardano-cli-1.27.0/x/cardano-cli/build/cardano-cli/cardano-cli ~/.local/bin/
+cp dist-newstyle/build/x86_64-linux/ghc-8.10.4/cardano-node-1.27.0/x/cardano-node/build/cardano-node/cardano-node ~/.local/bin/
+# cp -p "$(./scripts/bin-path.sh cardano-node)" ~/.local/bin/
+# cp -p "$(./scripts/bin-path.sh cardano-cli)" ~/.local/bin/
 
 echo
 echo '========================================================='
@@ -109,6 +113,7 @@ echo '========================================================='
 echo 'Updating PATH to binaries and setting socket env variable'
 echo '========================================================='
 echo 'export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc
+echo 'export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc
 echo 'export PATH="~/.cabal/bin:$PATH"' >> ~/.bashrc
 echo 'export PATH="~/.local/bin:$PATH"' >> ~/.bashrc
 echo 'export CARDANO_NODE_SOCKET_PATH=/home/ss/node/socket/node.socket' >> ~/.bashrc

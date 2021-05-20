@@ -5,13 +5,13 @@
 echo '========================================================='
 echo 'Querying reward details of stake.addr'
 echo '========================================================='
-REWARDAMOUNT=$(cardano-cli query stake-address-info --mainnet --mary-era --address $(cat stake.addr) | jq .[0].rewardAccountBalance)
+REWARDAMOUNT=$(cardano-cli query stake-address-info --mainnet --address $(cat stake.addr) | jq .[0].rewardAccountBalance)
 echo Rewards $REWARDAMOUNT
 
 echo '========================================================='
 echo 'Querying payment address and calculating new balance'
 echo '========================================================='
-UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet --mary-era | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
+UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)

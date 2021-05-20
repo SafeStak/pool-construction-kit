@@ -31,7 +31,7 @@ chmod 400 stake.addr
 echo '========================================================='
 echo 'Generating Protocol Parameters'
 echo '========================================================='
-cardano-cli query protocol-parameters --mainnet --mary-era  --cardano-mode --out-file protocol.json 
+cardano-cli query protocol-parameters --mainnet --out-file protocol.json 
 
 echo '========================================================='
 echo 'Generating Staking Registration Certificate'
@@ -42,7 +42,7 @@ chmod 400 stake.cert
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet --allegra-era --cardano-mode | tail -n 1)
+UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet --cardano-mode | tail -n 1)
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -54,7 +54,7 @@ echo '========================================================='
 CTIP=$(cardano-cli query tip --mainnet | jq -r .slotNo)
 TTL=$(expr $CTIP + 1000)
 rm dummy.txbody 2> /dev/null
-cardano-cli shelley transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+0 --ttl ${TTL} --fee 0 --certificate stake.cert --out-file dummy.txbody
+cardano-cli transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(cat payment.addr)+0 --ttl ${TTL} --fee 0 --certificate stake.cert --out-file dummy.txbody
 FEE=$(cardano-cli transaction calculate-min-fee \
 --tx-body-file dummy.txbody \
 --tx-in-count 1 \

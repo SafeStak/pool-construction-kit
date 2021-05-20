@@ -12,7 +12,7 @@ echo '========================================================='
 echo 'Re-Generating Stake Pool Operational Certificate'
 echo '========================================================='
 SLOTS_PER_KESPERIOD=$(cat ~/node/config/sgenesis.json | jq -r .slotsPerKESPeriod)
-CTIP=$(cardano-cli query tip --mainnet | jq -r .slotNo) # Currently has to run separately on an online device TODO: Use https://github.com/gitmachtl/scripts/blob/master/cardano/mainnet-release-candidate/0x_showCurrentEpochKES.sh for offline
+CTIP=$(cardano-cli query tip --mainnet | jq -r .slot) # Currently has to run separately on an online device TODO: Use https://github.com/gitmachtl/scripts/blob/master/cardano/mainnet-release-candidate/0x_showCurrentEpochKES.sh for offline
 KESP=$(expr $CTIP / $SLOTS_PER_KESPERIOD)
 cardano-cli node issue-op-cert \
 --kes-verification-key-file kes-$KESCOUNTER.vkey \
@@ -24,6 +24,6 @@ cp kes-$KESCOUNTER.skey kes.skey
 
 echo $(date --iso-8601=seconds) $KESCOUNTER >> keskeyop.log
 
-# scp -i ssh.pem /home/YOURLOCALNAME/PATH/kes.skey /home/YOURLOCALNAME/PATH/node.cert YOURREMOTENAME@YOURIP:/home/YOURREMOTENAME/kc/
+# scp -i ssh.pem /home/YOURLOCALNAME/PATH/kes.skey /home/YOURLOCALNAME/PATH/node.cert YOURREMOTENAME@YOURIP:/home/YOURREMOTENAME/kc/ # See wfly
 
-# Don't forget to chmod 400 your kes.skey and node.cert files and restart your node on your remote server after this, e.g. sudo systemctl restart cnode-core
+# Don't forget to chmod 400 your kes.skey and node.cert files after scp transfer and restart your node on your remote server after this, e.g. sudo systemctl restart cnode-core

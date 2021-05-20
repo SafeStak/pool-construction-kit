@@ -6,7 +6,7 @@
 echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
-UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet --mary-era | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
+UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -16,7 +16,7 @@ echo '========================================================='
 echo 'Calculating minimum fee'
 echo '========================================================='
 rm draft.txraw 2> /dev/null
-cardano-cli transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+1000000 --ttl 0 --fee 0 --out-file draft.txraw
+cardano-cli transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out addr1v9jg2sctezx6cceczxr4rmahmdwjm7wdnrsv4zp6rj3l8rqc5y74f+10 --tx-out $(cat payment.addr)+1000000 --ttl 0 --fee 0 --out-file draft.txraw
 FEE=$(cardano-cli transaction calculate-min-fee \
 --tx-body-file draft.txraw \
 --tx-in-count 1 \
@@ -29,12 +29,12 @@ FEE=$(cardano-cli transaction calculate-min-fee \
 echo '========================================================='
 echo 'Building transaction'
 echo '========================================================='
-CTIP=$(cardano-cli query tip --mainnet | jq -r .slotNo)
+CTIP=$(cardano-cli query tip --mainnet | jq -r .slot)
 TTL=$(expr $CTIP + 1200)
-TXOUT=$(expr $UTXO0V - $FEE - $2) 
-# echo "--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw"
+TXOUT=$(expr $UTXO0V - $FEE - 10) 
+# echo "--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out addr1v9jg2sctezx6cceczxr4rmahmdwjm7wdnrsv4zp6rj3l8rqc5y74f+10 --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw"
 cardano-cli  transaction build-raw \
---tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out $(echo $1)+$(echo $2) --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw
+--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out addr1v9jg2sctezx6cceczxr4rmahmdwjm7wdnrsv4zp6rj3l8rqc5y74f+10 --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw
 
 # SHOULD BE DONE OFFLINE FOR VALUABLE KEYS 
 echo '========================================================='
