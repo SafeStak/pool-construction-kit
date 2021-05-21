@@ -31,6 +31,12 @@ sudo cp ~/git/pool-construction-kit/init/chrony.conf /etc/chrony/chrony.conf
 sudo sysctl --system
 sudo systemctl restart chrony
 
+# GHCUP makes ghc and cabal versioning maintenance easier
+# mkdir -p ~/setup/ghcup
+# cd ~/setup/ghcup
+# curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh # Option 1 Interactive
+# wget https://downloads.haskell.org/~ghcup/0.1.14.1/x86_64-linux-ghcup-0.1.14.1 # Option 2 Binary to be added to $PATH see https://gitlab.haskell.org/haskell/ghcup-hs#manual-install
+
 echo
 echo '========================================================='
 echo 'Installing Cabal'
@@ -82,31 +88,34 @@ cd cardano-node
 git fetch --all --recurse-submodules --tags
 git checkout tags/1.27.0
 cabal configure --with-compiler=ghc-8.10.4
-echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" > cabal.project.local
+echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" >> cabal.project.local
 ~/.local/bin/cabal build all
-cp dist-newstyle/build/x86_64-linux/ghc-8.10.4/cardano-cli-1.27.0/x/cardano-cli/build/cardano-cli/cardano-cli ~/.local/bin/
-cp dist-newstyle/build/x86_64-linux/ghc-8.10.4/cardano-node-1.27.0/x/cardano-node/build/cardano-node/cardano-node ~/.local/bin/
-# cp -p "$(./scripts/bin-path.sh cardano-node)" ~/.local/bin/
-# cp -p "$(./scripts/bin-path.sh cardano-cli)" ~/.local/bin/
+cp -p "$(./scripts/bin-path.sh cardano-node)" ~/.local/bin/
+cp -p "$(./scripts/bin-path.sh cardano-cli)" ~/.local/bin/
 
 echo
 echo '========================================================='
 echo 'Generating node artefacts - genesis, config and topology'
 echo '========================================================='
-mkdir -p ~/node/config
-mkdir -p ~/node/socket
-cd ~/node/config
-#wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-config.json
-#wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-byron-genesis.json
-#wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-shelley-genesis.json
-#wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-topology.json
-wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-config.json
-wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-byron-genesis.json
-wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-shelley-genesis.json
-wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-topology.json
+mkdir -p ~/testnet-node/config
+mkdir -p ~/testnet-node/socket
+cd ~/testnet-node/config
+# mkdir -p ~/node/config
+# mkdir -p ~/node/socket
+# cd ~/node/config
+wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-config.json
+wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-byron-genesis.json
+wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-shelley-genesis.json
+wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-topology.json
+# wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-config.json
+# wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-byron-genesis.json
+# wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-shelley-genesis.json
+# wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-topology.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
-sed -i 's/mainnet-shelley-genesis/sgenesis/g' config.json
-sed -i 's/mainnet-byron-genesis/bgenesis/g' config.json
+sed -i 's/testnet-shelley-genesis/sgenesis/g' config.json
+sed -i 's/testnet-byron-genesis/bgenesis/g' config.json
+# sed -i 's/mainnet-shelley-genesis/sgenesis/g' config.json
+# sed -i 's/mainnet-byron-genesis/bgenesis/g' config.json
 
 echo
 echo '========================================================='
@@ -116,4 +125,5 @@ echo 'export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc
 echo 'export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc
 echo 'export PATH="~/.cabal/bin:$PATH"' >> ~/.bashrc
 echo 'export PATH="~/.local/bin:$PATH"' >> ~/.bashrc
-echo 'export CARDANO_NODE_SOCKET_PATH=/home/ss/node/socket/node.socket' >> ~/.bashrc
+echo 'export CARDANO_NODE_SOCKET_PATH=/home/ss/testnet-node/socket/node.socket' >> ~/.bashrc
+#echo 'export CARDANO_NODE_SOCKET_PATH=/home/ss/node/socket/node.socket' >> ~/.bashrc
