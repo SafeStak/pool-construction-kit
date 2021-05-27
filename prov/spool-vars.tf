@@ -34,9 +34,9 @@ variable "corevm-comp-name" {
   type        = string
   description = "Stake Pool core node VM computer name"
 }
-variable "core-node-port" {
+variable "corevm-node-port" {
   type        = string
-  description = "Port to run the core node on"
+  description = "Port to run the core cardano-node on"
 }
 variable "relayvm-size" {
   type        = string
@@ -48,11 +48,11 @@ variable "relayvm-nic-accelerated-networking" {
 }
 variable "relayvm-comp-name" {
   type        = string
-  description = "Stake Pool relay node VM computer name"
+  description = "Stake Pool relay node VM computer name prefix"
 }
-variable "relay-node-port" {
+variable "relayvm-node-port" {
   type        = string
-  description = "Port to run the relay node on"
+  description = "Port to run the relay cardano-node on"
 }
 variable "monvm-size" {
   type        = string
@@ -65,6 +65,14 @@ variable "monvm-nic-accelerated-networking" {
 variable "monvm-comp-name" {
   type        = string
   description = "Monitoring node VM computer name"
+}
+variable "monvm-node-port" {
+  type        = string
+  description = "Port to run the monitoring cardano-node on"
+}
+variable "monvm-graf-port" {
+  type        = string
+  description = "Port to expose the monitoring grafana on"
 }
 variable "tag-platform" {
   type        = string

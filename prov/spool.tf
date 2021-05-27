@@ -1,6 +1,5 @@
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
-  version = "~> 2.1.0"
   features {}
 }
 
@@ -33,21 +32,21 @@ resource "azurerm_subnet" "coresnet" {
   name                 = "${var.resource-prefix}-vnet-core-snet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefix       = "10.0.1.0/24"
+  address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_subnet" "relaysnet" {
   name                 = "${var.resource-prefix}-vnet-relays-snet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefix       = "10.0.2.0/24"
+  address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_subnet" "monsnet" {
-    name                 = "${var.resource-prefix}-vnet-mon-snet"
-    resource_group_name  = azurerm_resource_group.rg.name
-    virtual_network_name = azurerm_virtual_network.vnet.name
-    address_prefix       = "10.0.3.0/24"
+  name                 = "${var.resource-prefix}-vnet-mon-snet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.3.0/24"]
 }
 
 # Create Public IPs
@@ -56,18 +55,6 @@ resource "azurerm_public_ip" "core0pip" {
   location            = var.pool-location
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = "Standard"
-  allocation_method   = "Static"
-  tags = {
-    platform            = var.tag-platform
-    stage               = var.tag-stage
-    data-classification = var.tag-data-classification
-  }
-}
-
-resource "azurerm_public_ip" "core1pip" {
-  name                = "${var.resource-prefix}-core1pip"
-  location            = var.pool-location
-  resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
   tags = {
     platform            = var.tag-platform
@@ -138,7 +125,7 @@ resource "azurerm_network_security_group" "corensg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = var.core-node-port
+    destination_port_range     = var.corevm-node-port
     source_address_prefixes    = [azurerm_public_ip.relay0pip.ip_address, azurerm_public_ip.relay1pip.ip_address]
     destination_address_prefix = "*"
   }
@@ -182,7 +169,7 @@ resource "azurerm_network_security_group" "relaynsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = var.relay-node-port
+    destination_port_range     = var.relayvm-node-port
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -226,8 +213,8 @@ resource "azurerm_network_security_group" "monnsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_ranges    = ["80","443"]
-    source_address_prefix      = "*"
+    destination_port_ranges    = ["80", "443"]
+    source_address_prefixes    = var.mon-whitelist
     destination_address_prefix = "*"
   }
   security_rule {
@@ -237,8 +224,8 @@ resource "azurerm_network_security_group" "monnsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = 3000
-    source_address_prefix      = "*"
+    destination_port_range     = var.monvm-graf-port
+    source_address_prefixes    = var.mon-whitelist
     destination_address_prefix = "*"
   }
   tags = {
@@ -259,24 +246,6 @@ resource "azurerm_network_interface" "core0nic" {
     subnet_id                     = azurerm_subnet.coresnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.core0pip.id
-  }
-  tags = {
-    platform            = var.tag-platform
-    stage               = var.tag-stage
-    data-classification = var.tag-data-classification
-  }
-}
-
-resource "azurerm_network_interface" "core1nic" {
-  name                          = "${var.resource-prefix}-core1nic"
-  location                      = var.pool-location
-  resource_group_name           = azurerm_resource_group.rg.name
-  enable_accelerated_networking = var.corevm-nic-accelerated-networking
-  ip_configuration {
-    name                          = "core1nic-ipconfig"
-    subnet_id                     = azurerm_subnet.coresnet.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.core1pip.id
   }
   tags = {
     platform            = var.tag-platform
@@ -342,11 +311,6 @@ resource "azurerm_network_interface" "mon0nic" {
 # Connect Network Security Groups to the Network Interfaces
 resource "azurerm_network_interface_security_group_association" "core0nicnsg" {
   network_interface_id      = azurerm_network_interface.core0nic.id
-  network_security_group_id = azurerm_network_security_group.corensg.id
-}
-
-resource "azurerm_network_interface_security_group_association" "core1nicnsg" {
-  network_interface_id      = azurerm_network_interface.core1nic.id
   network_security_group_id = azurerm_network_security_group.corensg.id
 }
 
@@ -439,42 +403,6 @@ resource "azurerm_linux_virtual_machine" "core0vm" {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-focal"
     sku       = "20_04-lts"
-    version   = "latest"
-  }
-  admin_ssh_key {
-    username   = var.vm-username
-    public_key = tls_private_key.sshkey.public_key_openssh
-  }
-  boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.corestorage.primary_blob_endpoint
-  }
-  tags = {
-    platform            = var.tag-platform
-    stage               = var.tag-stage
-    data-classification = var.tag-data-classification
-  }
-}
-
-resource "azurerm_linux_virtual_machine" "core1vm" {
-  name                            = "${var.resource-prefix}-core1vm"
-  location                        = var.pool-location
-  resource_group_name             = azurerm_resource_group.rg.name
-  network_interface_ids           = [azurerm_network_interface.core1nic.id]
-  size                            = var.corevm-size
-  computer_name                   = "${var.corevm-comp-name}1"
-  admin_username                  = var.vm-username
-  disable_password_authentication = true
-  zone                            = "2"
-  os_disk {
-    name                 = "${var.resource-prefix}-core1vm-osdisk"
-    caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
-    disk_size_gb         = "256"
-  }
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "20.04-LTS"
     version   = "latest"
   }
   admin_ssh_key {
@@ -599,20 +527,14 @@ resource "azurerm_linux_virtual_machine" "mon0vm" {
 }
 
 output "sshpvk" {
-  value       = "${tls_private_key.sshkey.private_key_pem}"
+  value       = tls_private_key.sshkey.private_key_pem
   description = "SSH private key"
-  sensitive   = false
+  sensitive   = true
 }
 
 output "c0pip" {
   value       = azurerm_public_ip.core0pip.ip_address
   description = "Core VM 0 Active Public IP Address"
-  sensitive   = false
-}
-
-output "c1pip" {
-  value       = azurerm_public_ip.core1pip.ip_address
-  description = "Core VM 1 Passive Public IP Address"
   sensitive   = false
 }
 
