@@ -125,5 +125,5 @@ echo 'export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc
 echo 'export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc
 echo 'export PATH="~/.cabal/bin:$PATH"' >> ~/.bashrc
 echo 'export PATH="~/.local/bin:$PATH"' >> ~/.bashrc
-echo 'export CARDANO_NODE_SOCKET_PATH=/home/ss/testnet-node/socket/node.socket' >> ~/.bashrc
-#echo 'export CARDANO_NODE_SOCKET_PATH=/home/ss/node/socket/node.socket' >> ~/.bashrc
+echo 'export CARDANO_NODE_SOCKET_PATH="$HOME/testnet-node/socket/node.socket"' >> ~/.bashrc
+#echo 'export CARDANO_NODE_SOCKET_PATH="$HOME/node/socket/node.socket"' >> ~/.bashrc
