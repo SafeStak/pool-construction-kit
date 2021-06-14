@@ -41,7 +41,7 @@ echo Fee $FEE
 echo '========================================================='
 echo 'Building transaction'
 echo '========================================================='
-CTIP=$(cardano-cli query tip --mainnet | jq -r .slotNo)
+CTIP=$(cardano-cli query tip --mainnet | jq -r .slot)
 TTL=$(expr $CTIP + 1200)
 NEWBAL=$(expr $UTXO0V + $REWARDAMOUNT - $FEE)
 echo Current Tip $CTIP
