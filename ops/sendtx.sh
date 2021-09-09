@@ -4,6 +4,11 @@
 # Usage: ./sendtx.sh {ADDR} {AMOUNT}
 
 echo '========================================================='
+echo 'Getting latest protocol.json'
+echo '========================================================='
+cardano-cli query protocol-parameters --mainnet --out-file protocol.json 
+
+echo '========================================================='
 echo 'Querying utxo details of payment.addr'
 echo '========================================================='​
 UTXO0=$(cardano-cli query utxo --address $(cat payment.addr) --mainnet | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet. TODO parse response to derive multiple txin 
@@ -16,41 +21,53 @@ echo '========================================================='
 echo 'Calculating minimum fee'
 echo '========================================================='
 rm draft.txraw 2> /dev/null
-cardano-cli transaction build-raw --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out addr1v9jg2sctezx6cceczxr4rmahmdwjm7wdnrsv4zp6rj3l8rqc5y74f+10 --tx-out $(cat payment.addr)+1000000 --ttl 0 --fee 0 --out-file draft.txraw
+CHANGE=$(expr $UTXO0V - $2)
+cardano-cli transaction build-raw \
+    --tx-in $UTXO0H#$UTXO0I \
+    --tx-out $1+$2 \
+    --tx-out $(cat payment.addr)+$CHANGE \
+    --ttl 0 \
+    --fee 0 \
+    --out-file draft.txraw
 FEE=$(cardano-cli transaction calculate-min-fee \
---tx-body-file draft.txraw \
---tx-in-count 1 \
---tx-out-count 2 \
---witness-count 1 \
---byron-witness-count 0 \
---mainnet \
---protocol-params-file protocol.json | egrep -o '[0-9]+')
+    --tx-body-file draft.txraw \
+    --tx-in-count 1 \
+    --tx-out-count 2 \
+    --witness-count 1 \
+    --mainnet \
+    --protocol-params-file protocol.json | egrep -o '[0-9]+')
+echo Fee: $FEE
 
 echo '========================================================='
 echo 'Building transaction'
 echo '========================================================='
 CTIP=$(cardano-cli query tip --mainnet | jq -r .slot)
-TTL=$(expr $CTIP + 1200)
-TXOUT=$(expr $UTXO0V - $FEE - 10) 
-# echo "--tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out addr1v9jg2sctezx6cceczxr4rmahmdwjm7wdnrsv4zp6rj3l8rqc5y74f+10 --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw"
+TTL=$(expr $CTIP + 900)
+CHANGE=$(expr $UTXO0V - $FEE - $2) 
+# echo "--tx-in $UTXO0H#$UTXO0I --tx-out $1+$2 --tx-out $(cat payment.addr)+$CHANGE --ttl $TTL --fee $FEE --out-file sendtx.txraw"
 cardano-cli  transaction build-raw \
---tx-in $(echo $UTXO0H)#$(echo $UTXO0I) --tx-out addr1v9jg2sctezx6cceczxr4rmahmdwjm7wdnrsv4zp6rj3l8rqc5y74f+10 --tx-out $(cat payment.addr)+$(echo $TXOUT) --ttl $TTL --fee $FEE --out-file sendtx.txraw
+    --tx-in $(echo $UTXO0H)#$(echo $UTXO0I) \
+    --tx-out $1+$2 \
+    --tx-out $(cat payment.addr)+$CHANGE \
+    --ttl $TTL \
+    --fee $FEE \
+    --out-file sendtx.txraw
 
-# SHOULD BE DONE OFFLINE FOR VALUABLE KEYS 
-echo '========================================================='
-echo 'Signing transaction'
-echo '========================================================='
-cardano-cli transaction sign \
---tx-body-file sendtx.txraw \
---signing-key-file payment.skey \
---mainnet \
---out-file sendtx.txsigned
+# # SHOULD BE DONE OFFLINE FOR VALUABLE KEYS 
+# echo '========================================================='
+# echo 'Signing transaction'
+# echo '========================================================='
+# cardano-cli transaction sign \
+#     --tx-body-file sendtx.txraw \
+#     --signing-key-file payment.skey \
+#     --mainnet \
+#     --out-file sendtx.txsigned
 
-# SHOULD BE DONE ONLINE
-echo '========================================================='
-echo 'Submitting transaction'
-echo '========================================================='
-cardano-cli transaction submit \
---tx-file sendtx.txsigned \
---cardano-mode \
---mainnet
+# # SHOULD BE DONE ONLINE
+# echo '========================================================='
+# echo 'Submitting transaction'
+# echo '========================================================='
+# cardano-cli transaction submit \
+#     --tx-file sendtx.txsigned \
+#     --cardano-mode \
+#     --mainnet

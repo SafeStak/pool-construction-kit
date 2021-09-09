@@ -2,7 +2,7 @@
 # Note: One-off execution only! Do not run more than once in case of failures
 echo
 echo '========================================================='
-echo 'Applying Security Upda  / Patches'
+echo 'Applying Security Update / Patches'
 echo '========================================================='
 sudo unattended-upgrade
 
@@ -86,7 +86,7 @@ cd ~/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
 git fetch --all --recurse-submodules --tags
-git checkout tags/1.27.0
+git checkout tags/1.29.0
 cabal configure --with-compiler=ghc-8.10.4
 echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" >> cabal.project.local
 ~/.local/bin/cabal build all
@@ -106,16 +106,20 @@ cd ~/testnet-node/config
 wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-config.json
 wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-byron-genesis.json
 wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-shelley-genesis.json
+wget -O agenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-alonzo-genesis.json
 wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/testnet-topology.json
 # wget -O config.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-config.json
 # wget -O bgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-byron-genesis.json
 # wget -O sgenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-shelley-genesis.json
+# wget -O agenesis.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-alonzo-genesis.json
 # wget -O topology.json https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/mainnet-topology.json
 sed -i 's/"TraceBlockFetchDecisions": false/"TraceBlockFetchDecisions": true/g' config.json
 sed -i 's/testnet-shelley-genesis/sgenesis/g' config.json
 sed -i 's/testnet-byron-genesis/bgenesis/g' config.json
+sed -i 's/testnet-alonzo-genesis/agenesis/g' config.json
 # sed -i 's/mainnet-shelley-genesis/sgenesis/g' config.json
 # sed -i 's/mainnet-byron-genesis/bgenesis/g' config.json
+# sed -i 's/mainnet-alonzo-genesis/agenesis/g' config.json
 
 echo
 echo '========================================================='
@@ -125,5 +129,7 @@ echo 'export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc
 echo 'export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc
 echo 'export PATH="~/.cabal/bin:$PATH"' >> ~/.bashrc
 echo 'export PATH="~/.local/bin:$PATH"' >> ~/.bashrc
+echo 'export NODE_HOME="$HOME/testnet-node"' >> ~/.bashrc
+#echo 'export NODE_HOME="$HOME/node"' >> ~/.bashrc
 echo 'export CARDANO_NODE_SOCKET_PATH="$HOME/testnet-node/socket/node.socket"' >> ~/.bashrc
 #echo 'export CARDANO_NODE_SOCKET_PATH="$HOME/node/socket/node.socket"' >> ~/.bashrc

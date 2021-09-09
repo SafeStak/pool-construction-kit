@@ -2,15 +2,13 @@
 
 if [[ $# -eq 1 && ! $1 == "" ]]; then nodeName=$1; else echo "ERROR - Usage: $0 {versionTag}"; exit 2; fi
 
-export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
-
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo unattended-upgrade
 
 echo
 echo '========================================================='
-echo 'Backing up'
+echo "Backing up to ~/backup/$(date --iso-8601)"
 echo '========================================================='
 mkdir -p ~/backup/$(date --iso-8601)
 cd ~/backup/$(date --iso-8601)
@@ -41,5 +39,6 @@ echo
 echo '========================================================='
 echo 'Copying cardano-cli cardano-node $1 binaries to ~/.local/bin'
 echo '========================================================='
-cp -p "$(./scripts/bin-path.sh cardano-node)" ~/.local/bin/
 cp -p "$(./scripts/bin-path.sh cardano-cli)" ~/.local/bin/
+cp -p "$(./scripts/bin-path.sh cardano-node)" ~/.local/bin/
+

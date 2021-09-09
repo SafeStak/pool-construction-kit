@@ -24,10 +24,8 @@
       "description": "Minted/Elected",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "decimals": 0,
           "mappings": [],
-          "nullValueMode": "connected",
           "thresholds": {
             "mode": "percentage",
             "steps": [
@@ -77,9 +75,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "(cardano_node_metrics_Forge_forged_int{alias=\"core\"} / cardano_node_metrics_Forge_node_is_leader_int{alias=\"core\"} * 100)",
@@ -101,18 +100,18 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "decimals": 0,
           "mappings": [
             {
-              "id": 0,
-              "op": "=",
-              "text": "N/A",
-              "type": 1,
-              "value": "null"
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
             }
           ],
-          "nullValueMode": "connected",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -153,9 +152,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "safestats_pool_lifetime",
@@ -176,9 +176,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -211,9 +208,10 @@
           "fields": "",
           "values": true
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "safestats_pool_blocks_epoch ",
@@ -233,9 +231,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "decimals": 2,
           "mappings": [],
           "thresholds": {
@@ -270,9 +265,10 @@
           "fields": "",
           "values": true
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "safestats_pool_live_stake/1000000",
@@ -299,7 +295,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "type": "stat"
     },
     {
@@ -307,9 +302,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -342,9 +334,10 @@
           "fields": "",
           "values": true
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "safestats_pool_delegator_count",
@@ -358,7 +351,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "type": "stat"
     },
     {
@@ -366,9 +358,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -409,9 +398,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "cardano_node_metrics_currentKESPeriod_int",
@@ -431,7 +421,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "type": "stat"
     },
     {
@@ -439,9 +428,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "mappings": [],
           "min": 0,
           "thresholds": {
@@ -487,9 +473,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "cardano_node_metrics_remainingKESPeriods_int * 1.5",
@@ -501,20 +488,10 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "type": "stat"
     },
     {
-      "dashboardFilter": "",
-      "dashboardTags": [],
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "folderId": null,
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -522,13 +499,25 @@
         "y": 0
       },
       "id": 97,
-      "limit": 10,
-      "nameFilter": "",
-      "onlyAlertsOnDashboard": false,
-      "pluginVersion": "7.1.5",
-      "show": "current",
-      "sortOrder": 1,
-      "stateFilter": [],
+      "options": {
+        "alertName": "",
+        "dashboardAlerts": false,
+        "dashboardTitle": "",
+        "folderId": null,
+        "maxItems": 10,
+        "showOptions": "current",
+        "sortOrder": 1,
+        "stateFilter": {
+          "alerting": false,
+          "execution_error": false,
+          "no_data": false,
+          "ok": false,
+          "paused": false,
+          "pending": false
+        },
+        "tags": []
+      },
+      "pluginVersion": "8.0.3",
       "timeFrom": null,
       "timeShift": null,
       "title": "Alerts",
@@ -539,9 +528,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -574,9 +560,10 @@
           "fields": "",
           "values": true
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "safestats_pool_blocks_epoch_estimate",
@@ -607,29 +594,44 @@
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorPostfix": false,
-      "colorValue": true,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
       "datasource": "prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 1
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 2
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
-      },
-      "format": "short",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 2,
@@ -640,39 +642,23 @@
       "id": 15,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "maxPerRow": 6,
-      "nullPointMode": "null",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "count(node_cpu_seconds_total{alias=\"core\", mode='system'})",
@@ -685,44 +671,50 @@
           "step": 20
         }
       ],
-      "thresholds": "1,2",
       "title": "CPU Cores",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
       "datasource": "prometheus",
-      "decimals": 0,
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 2
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "bytes"
         },
         "overrides": []
-      },
-      "format": "bytes",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 2,
@@ -733,39 +725,23 @@
       "id": 13,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "maxPerRow": 6,
-      "nullPointMode": "null",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "70%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "sum(node_memory_MemTotal_bytes{alias=\"core\"})",
@@ -778,44 +754,50 @@
           "step": 20
         }
       ],
-      "thresholds": "2,3",
       "title": "Total RAM",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
       "datasource": "prometheus",
-      "decimals": 0,
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 2
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "bytes"
         },
         "overrides": []
-      },
-      "format": "bytes",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 2,
@@ -826,39 +808,23 @@
       "id": 12,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "maxPerRow": 6,
-      "nullPointMode": "null",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "70%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "node_filesystem_size_bytes{alias=\"core\",fstype=~\"ext.*|xfs\",mountpoint !~\".*pod.*\"}-0",
@@ -871,18 +837,8 @@
           "step": 20
         }
       ],
-      "thresholds": "2,3",
       "title": "Disk",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "datasource": "prometheus",
@@ -891,18 +847,16 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "decimals": 1,
           "displayName": "",
           "mappings": [
             {
-              "from": "",
-              "id": 1,
-              "operator": "",
-              "text": "N/A",
-              "to": "",
-              "type": 1,
-              "value": "0"
+              "options": {
+                "0": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
             }
           ],
           "max": 100,
@@ -945,9 +899,10 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "100 - (avg(irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
@@ -975,7 +930,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "type": "bargauge"
     },
     {
@@ -983,9 +937,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1018,9 +969,10 @@
           "fields": "",
           "values": true
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "cardano_node_metrics_epoch_int{alias=\"core\"}",
@@ -1049,7 +1001,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "type": "stat"
     },
     {
@@ -1058,18 +1009,18 @@
       "description": "Connected peers to/from Core Node",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "decimals": 0,
           "mappings": [
             {
-              "id": 0,
-              "op": "=",
-              "text": "N/A",
-              "type": 1,
-              "value": "null"
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
             }
           ],
-          "nullValueMode": "null",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1113,9 +1064,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "cardano_node_metrics_connectedPeers_int{alias=\"core\"}",
@@ -1138,18 +1090,18 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "decimals": 0,
           "mappings": [
             {
-              "id": 0,
-              "op": "=",
-              "text": "N/A",
-              "type": 1,
-              "value": "null"
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
             }
           ],
-          "nullValueMode": "connected",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1190,9 +1142,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "targets": [
         {
           "expr": "cardano_node_metrics_txsProcessedNum_int{alias=\"core\"}",
@@ -1265,12 +1218,6 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1306,7 +1253,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1371,7 +1318,8 @@
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": 70
+          "value": 70,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -1393,6 +1341,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:455",
           "decimals": 0,
           "format": "percent",
           "label": "",
@@ -1402,6 +1351,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:456",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1467,12 +1417,6 @@
       "dashes": false,
       "datasource": "prometheus",
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1507,7 +1451,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1577,7 +1521,8 @@
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": 70
+          "value": 70,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -1599,6 +1544,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:410",
           "format": "bytes",
           "label": null,
           "logBase": 1,
@@ -1607,6 +1553,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:411",
           "format": "percent",
           "label": "Utilization%",
           "logBase": 1,
@@ -1630,12 +1577,6 @@
       "dashes": false,
       "datasource": "prometheus",
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1670,7 +1611,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1754,12 +1695,6 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "Per second read / write bytes ",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 1,
       "gridPos": {
@@ -1793,7 +1728,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1882,29 +1817,44 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorPostfix": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 1
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 2
+                  }
+                ]
+              },
+              "unit": "short"
             },
             "overrides": []
-          },
-          "format": "short",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
@@ -1915,39 +1865,23 @@
           "id": 29,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "count(node_cpu_seconds_total{alias=\"relay0\", mode='system'})",
@@ -1960,44 +1894,50 @@
               "step": 20
             }
           ],
-          "thresholds": "1,2",
           "title": "CPU Cores",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
-          "decimals": 0,
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 2
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 3
+                  }
+                ]
+              },
+              "unit": "bytes"
             },
             "overrides": []
-          },
-          "format": "bytes",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
@@ -2008,39 +1948,23 @@
           "id": 30,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "70%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "sum(node_memory_MemTotal_bytes{alias=\"relay0\"})",
@@ -2053,44 +1977,50 @@
               "step": 20
             }
           ],
-          "thresholds": "2,3",
           "title": "Total RAM",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
-          "decimals": 0,
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 2
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 3
+                  }
+                ]
+              },
+              "unit": "bytes"
             },
             "overrides": []
-          },
-          "format": "bytes",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
@@ -2101,39 +2031,23 @@
           "id": 31,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "70%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "node_filesystem_size_bytes{alias=\"relay0\",fstype=~\"ext.*|xfs\",mountpoint !~\".*pod.*\"}-0",
@@ -2146,18 +2060,8 @@
               "step": 20
             }
           ],
-          "thresholds": "2,3",
           "title": "Disk",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "datasource": "prometheus",
@@ -2166,18 +2070,16 @@
               "color": {
                 "mode": "thresholds"
               },
-              "custom": {},
               "decimals": 1,
               "displayName": "",
               "mappings": [
                 {
-                  "from": "",
-                  "id": 1,
-                  "operator": "",
-                  "text": "N/A",
-                  "to": "",
-                  "type": 1,
-                  "value": "0"
+                  "options": {
+                    "0": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "value"
                 }
               ],
               "max": 100,
@@ -2220,9 +2122,10 @@
               "fields": "",
               "values": false
             },
-            "showUnfilled": true
+            "showUnfilled": true,
+            "text": {}
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "100 - (avg(irate(node_cpu_seconds_total{alias=\"relay0\",mode=\"idle\"}[5m])) * 100)",
@@ -2249,7 +2152,6 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "",
           "type": "bargauge"
         },
         {
@@ -2257,9 +2159,6 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {
-                "align": null
-              },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
@@ -2292,9 +2191,10 @@
               "fields": "",
               "values": true
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_epoch_int{alias=\"relay0\"}",
@@ -2323,7 +2223,6 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "",
           "type": "stat"
         },
         {
@@ -2332,18 +2231,18 @@
           "description": "Connected peers to/from Relay 1",
           "fieldConfig": {
             "defaults": {
-              "custom": {},
               "decimals": 0,
               "mappings": [
                 {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": "null"
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
                 }
               ],
-              "nullValueMode": "null",
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -2391,9 +2290,10 @@
               "fields": "",
               "values": false
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_connectedPeers_int{alias=\"relay0\"}",
@@ -2415,18 +2315,17 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {},
               "decimals": 0,
               "mappings": [
                 {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": ""
+                  "options": {
+                    "": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "value"
                 }
               ],
-              "nullValueMode": "connected",
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -2467,11 +2366,13 @@
               "fields": "",
               "values": false
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
+              "exemplar": true,
               "expr": "cardano_node_metrics_txsProcessedNum_int{alias=\"relay0\"}",
               "hide": false,
               "instant": true,
@@ -2542,12 +2443,6 @@
           "datasource": "prometheus",
           "decimals": 2,
           "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -2583,7 +2478,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -2647,7 +2542,8 @@
               "fill": true,
               "line": true,
               "op": "gt",
-              "value": 70
+              "value": 70,
+              "visible": true
             }
           ],
           "timeFrom": null,
@@ -2669,6 +2565,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:287",
               "decimals": 0,
               "format": "percent",
               "label": "",
@@ -2678,6 +2575,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:288",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -2743,12 +2641,6 @@
           "dashes": false,
           "datasource": "prometheus",
           "decimals": 2,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -2783,7 +2675,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -2853,7 +2745,8 @@
               "fill": true,
               "line": true,
               "op": "gt",
-              "value": 70
+              "value": 70,
+              "visible": true
             }
           ],
           "timeFrom": null,
@@ -2875,6 +2768,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:183",
               "format": "bytes",
               "label": null,
               "logBase": 1,
@@ -2883,6 +2777,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:184",
               "format": "percent",
               "label": "Utilization%",
               "logBase": 1,
@@ -2906,12 +2801,6 @@
           "dashes": false,
           "datasource": "prometheus",
           "decimals": 2,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -2946,7 +2835,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 2,
           "points": false,
           "renderer": "flot",
@@ -3030,12 +2919,6 @@
           "datasource": "prometheus",
           "decimals": 2,
           "description": "Per second read / write bytes ",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 1,
           "gridPos": {
@@ -3069,7 +2952,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -3162,29 +3045,44 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorPostfix": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 1
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 2
+                  }
+                ]
+              },
+              "unit": "short"
             },
             "overrides": []
-          },
-          "format": "short",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
@@ -3195,39 +3093,23 @@
           "id": 37,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "count(node_cpu_seconds_total{alias=\"relay1\", mode='system'})",
@@ -3240,44 +3122,50 @@
               "step": 20
             }
           ],
-          "thresholds": "1,2",
           "title": "CPU Cores",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
-          "decimals": 0,
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 2
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 3
+                  }
+                ]
+              },
+              "unit": "bytes"
             },
             "overrides": []
-          },
-          "format": "bytes",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
@@ -3288,39 +3176,23 @@
           "id": 38,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "70%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "sum(node_memory_MemTotal_bytes{alias=\"relay1\"})",
@@ -3333,44 +3205,50 @@
               "step": 20
             }
           ],
-          "thresholds": "2,3",
           "title": "Total RAM",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
-          "decimals": 0,
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 2
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 3
+                  }
+                ]
+              },
+              "unit": "bytes"
             },
             "overrides": []
-          },
-          "format": "bytes",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
@@ -3381,39 +3259,23 @@
           "id": 39,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "70%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "node_filesystem_size_bytes{alias=\"relay1\",fstype=~\"ext.*|xfs\",mountpoint !~\".*pod.*\"}-0",
@@ -3426,18 +3288,8 @@
               "step": 20
             }
           ],
-          "thresholds": "2,3",
           "title": "Disk",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "datasource": "prometheus",
@@ -3446,18 +3298,16 @@
               "color": {
                 "mode": "thresholds"
               },
-              "custom": {},
               "decimals": 1,
               "displayName": "",
               "mappings": [
                 {
-                  "from": "",
-                  "id": 1,
-                  "operator": "",
-                  "text": "N/A",
-                  "to": "",
-                  "type": 1,
-                  "value": "0"
+                  "options": {
+                    "0": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "value"
                 }
               ],
               "max": 100,
@@ -3500,9 +3350,10 @@
               "fields": "",
               "values": false
             },
-            "showUnfilled": true
+            "showUnfilled": true,
+            "text": {}
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "100 - (avg(irate(node_cpu_seconds_total{alias=\"relay1\",mode=\"idle\"}[5m])) * 100)",
@@ -3529,7 +3380,6 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "",
           "type": "bargauge"
         },
         {
@@ -3537,9 +3387,6 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {
-                "align": null
-              },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
@@ -3572,9 +3419,10 @@
               "fields": "",
               "values": true
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_epoch_int{alias=\"relay1\"}",
@@ -3603,7 +3451,6 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "",
           "type": "stat"
         },
         {
@@ -3612,18 +3459,18 @@
           "description": "Connected peers to/from Relay 1",
           "fieldConfig": {
             "defaults": {
-              "custom": {},
               "decimals": 0,
               "mappings": [
                 {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": "null"
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
                 }
               ],
-              "nullValueMode": "null",
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -3671,9 +3518,10 @@
               "fields": "",
               "values": false
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_connectedPeers_int{alias=\"relay1\"}",
@@ -3695,18 +3543,17 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {},
               "decimals": 0,
               "mappings": [
                 {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": ""
+                  "options": {
+                    "": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "value"
                 }
               ],
-              "nullValueMode": "connected",
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -3747,9 +3594,10 @@
               "fields": "",
               "values": false
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_txsProcessedNum_int{alias=\"relay1\"}",
@@ -3822,12 +3670,6 @@
           "datasource": "prometheus",
           "decimals": 2,
           "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -3863,7 +3705,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -3927,7 +3769,8 @@
               "fill": true,
               "line": true,
               "op": "gt",
-              "value": 70
+              "value": 70,
+              "visible": true
             }
           ],
           "timeFrom": null,
@@ -3949,6 +3792,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:244",
               "decimals": 0,
               "format": "percent",
               "label": "",
@@ -3958,6 +3802,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:245",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -4023,12 +3868,6 @@
           "dashes": false,
           "datasource": "prometheus",
           "decimals": 2,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -4063,7 +3902,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -4133,7 +3972,8 @@
               "fill": true,
               "line": true,
               "op": "gt",
-              "value": 70
+              "value": 70,
+              "visible": true
             }
           ],
           "timeFrom": null,
@@ -4155,6 +3995,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:273",
               "format": "bytes",
               "label": null,
               "logBase": 1,
@@ -4163,6 +4004,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:274",
               "format": "percent",
               "label": "Utilization%",
               "logBase": 1,
@@ -4186,12 +4028,6 @@
           "dashes": false,
           "datasource": "prometheus",
           "decimals": 2,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -4226,7 +4062,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 2,
           "points": false,
           "renderer": "flot",
@@ -4310,12 +4146,6 @@
           "datasource": "prometheus",
           "decimals": 2,
           "description": "Per second read / write bytes ",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 1,
           "gridPos": {
@@ -4349,7 +4179,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -4442,72 +4272,71 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorPostfix": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 1
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 2
+                  }
+                ]
+              },
+              "unit": "short"
             },
             "overrides": []
-          },
-          "format": "short",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
             "w": 2,
             "x": 0,
-            "y": 8
+            "y": 18
           },
           "id": 112,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "count(node_cpu_seconds_total{alias=\"relay2\", mode='system'})",
@@ -4520,87 +4349,77 @@
               "step": 20
             }
           ],
-          "thresholds": "1,2",
           "title": "CPU Cores",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
-          "decimals": 0,
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 2
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 3
+                  }
+                ]
+              },
+              "unit": "bytes"
             },
             "overrides": []
-          },
-          "format": "bytes",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
             "w": 2,
             "x": 2,
-            "y": 8
+            "y": 18
           },
           "id": 113,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "70%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "sum(node_memory_MemTotal_bytes{alias=\"relay2\"})",
@@ -4613,87 +4432,77 @@
               "step": 20
             }
           ],
-          "thresholds": "2,3",
           "title": "Total RAM",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": true,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
           "datasource": "prometheus",
-          "decimals": 0,
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {}
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgba(245, 54, 54, 0.9)",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 2
+                  },
+                  {
+                    "color": "rgba(50, 172, 45, 0.97)",
+                    "value": 3
+                  }
+                ]
+              },
+              "unit": "bytes"
             },
             "overrides": []
-          },
-          "format": "bytes",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
           },
           "gridPos": {
             "h": 2,
             "w": 2,
             "x": 4,
-            "y": 8
+            "y": 18
           },
           "id": 114,
           "interval": null,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
           "maxDataPoints": 100,
-          "maxPerRow": 6,
-          "nullPointMode": "null",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "70%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
           },
-          "tableColumn": "",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "node_filesystem_size_bytes{alias=\"relay2\",fstype=~\"ext.*|xfs\",mountpoint !~\".*pod.*\"}-0",
@@ -4706,18 +4515,8 @@
               "step": 20
             }
           ],
-          "thresholds": "2,3",
           "title": "Disk",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
+          "type": "stat"
         },
         {
           "datasource": "prometheus",
@@ -4726,18 +4525,16 @@
               "color": {
                 "mode": "thresholds"
               },
-              "custom": {},
               "decimals": 1,
               "displayName": "",
               "mappings": [
                 {
-                  "from": "",
-                  "id": 1,
-                  "operator": "",
-                  "text": "N/A",
-                  "to": "",
-                  "type": 1,
-                  "value": "0"
+                  "options": {
+                    "0": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "value"
                 }
               ],
               "max": 100,
@@ -4767,7 +4564,7 @@
             "h": 2,
             "w": 6,
             "x": 6,
-            "y": 8
+            "y": 18
           },
           "id": 108,
           "options": {
@@ -4780,9 +4577,10 @@
               "fields": "",
               "values": false
             },
-            "showUnfilled": true
+            "showUnfilled": true,
+            "text": {}
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "100 - (avg(irate(node_cpu_seconds_total{alias=\"relay2\",mode=\"idle\"}[5m])) * 100)",
@@ -4809,7 +4607,6 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "",
           "type": "bargauge"
         },
         {
@@ -4817,9 +4614,6 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {
-                "align": null
-              },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
@@ -4837,7 +4631,7 @@
             "h": 2,
             "w": 6,
             "x": 12,
-            "y": 8
+            "y": 18
           },
           "id": 109,
           "options": {
@@ -4852,9 +4646,10 @@
               "fields": "",
               "values": true
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_epoch_int{alias=\"relay2\"}",
@@ -4883,7 +4678,6 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "",
           "type": "stat"
         },
         {
@@ -4892,18 +4686,18 @@
           "description": "Connected peers to/from Relay 1",
           "fieldConfig": {
             "defaults": {
-              "custom": {},
               "decimals": 0,
               "mappings": [
                 {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": "null"
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
                 }
               ],
-              "nullValueMode": "null",
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -4933,7 +4727,7 @@
             "h": 2,
             "w": 2,
             "x": 18,
-            "y": 8
+            "y": 18
           },
           "id": 110,
           "interval": null,
@@ -4951,9 +4745,10 @@
               "fields": "",
               "values": false
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_connectedPeers_int{alias=\"relay2\"}",
@@ -4975,18 +4770,17 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "custom": {},
               "decimals": 0,
               "mappings": [
                 {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": ""
+                  "options": {
+                    "": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "value"
                 }
               ],
-              "nullValueMode": "connected",
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -5004,7 +4798,7 @@
             "h": 2,
             "w": 2,
             "x": 20,
-            "y": 8
+            "y": 18
           },
           "id": 111,
           "interval": null,
@@ -5027,9 +4821,10 @@
               "fields": "",
               "values": false
             },
+            "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "targets": [
             {
               "expr": "cardano_node_metrics_txsProcessedNum_int{alias=\"relay2\"}",
@@ -5067,19 +4862,13 @@
           "datasource": "prometheus",
           "decimals": 2,
           "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
             "h": 8,
             "w": 6,
             "x": 0,
-            "y": 10
+            "y": 20
           },
           "hiddenSeries": false,
           "id": 104,
@@ -5108,7 +4897,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -5186,6 +4975,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:244",
               "decimals": 0,
               "format": "percent",
               "label": "",
@@ -5195,6 +4985,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:245",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -5225,19 +5016,13 @@
           "dashes": false,
           "datasource": "prometheus",
           "decimals": 2,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
             "h": 8,
             "w": 6,
             "x": 6,
-            "y": 10
+            "y": 20
           },
           "height": "300",
           "hiddenSeries": false,
@@ -5265,7 +5050,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -5349,6 +5134,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:273",
               "format": "bytes",
               "label": null,
               "logBase": 1,
@@ -5357,6 +5143,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:274",
               "format": "percent",
               "label": "Utilization%",
               "logBase": 1,
@@ -5380,19 +5167,13 @@
           "dashes": false,
           "datasource": "prometheus",
           "decimals": 2,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
             "h": 8,
             "w": 6,
             "x": 12,
-            "y": 10
+            "y": 20
           },
           "height": "300",
           "hiddenSeries": false,
@@ -5420,7 +5201,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 2,
           "points": false,
           "renderer": "flot",
@@ -5473,6 +5254,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:382",
               "format": "bps",
               "label": "transmit（-）/receive（+）",
               "logBase": 1,
@@ -5481,6 +5263,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:383",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -5504,19 +5287,13 @@
           "datasource": "prometheus",
           "decimals": 2,
           "description": "Per second read / write bytes ",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
           "fill": 1,
           "fillGradient": 1,
           "gridPos": {
             "h": 8,
             "w": 6,
             "x": 18,
-            "y": 10
+            "y": 20
           },
           "height": "300",
           "hiddenSeries": false,
@@ -5543,7 +5320,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "7.3.7",
+          "pluginVersion": "8.0.3",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -5597,6 +5374,7 @@
           },
           "yaxes": [
             {
+              "$$hashKey": "object:490",
               "decimals": null,
               "format": "Bps",
               "label": "Bytes read (-) / write (+)",
@@ -5606,6 +5384,7 @@
               "show": true
             },
             {
+              "$$hashKey": "object:491",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -5652,12 +5431,6 @@
       "datasource": "prometheus",
       "editable": true,
       "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "grid": {},
@@ -5691,7 +5464,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 1,
       "points": false,
       "renderer": "flot",
@@ -5773,12 +5546,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 10,
       "gridPos": {
@@ -5805,7 +5572,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -5841,6 +5608,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:139",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -5849,6 +5617,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:140",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -5869,12 +5638,6 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -5901,7 +5664,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 2,
       "points": true,
       "renderer": "flot",
@@ -5965,12 +5728,6 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -5997,7 +5754,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 2,
       "points": true,
       "renderer": "flot",
@@ -6066,12 +5823,6 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "Sockets_used - Sockets currently in use\n\nCurrEstab - TCP connections for which the current state is either ESTABLISHED or CLOSE- WAIT\n\nTCP_alloc - Allocated sockets\n\nTCP_tw - Sockets wating close\n\nUDP_inuse - Udp sockets currently in use\n\nRetransSegs - TCP retransmission packets\n\nOutSegs - Number of packets sent by TCP\n\nInSegs - Number of packets received by TCP",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -6108,7 +5859,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -6262,12 +6013,6 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -6298,7 +6043,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 1,
       "points": false,
       "renderer": "flot",
@@ -6385,12 +6130,6 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 2,
       "fillGradient": 0,
       "gridPos": {
@@ -6421,7 +6160,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -6567,12 +6306,6 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "BP KES for alerting purposes",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 1,
       "gridPos": {
@@ -6606,7 +6339,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -6631,7 +6364,8 @@
           "fill": true,
           "line": true,
           "op": "lt",
-          "value": 2
+          "value": 2,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -6653,6 +6387,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:218",
           "decimals": null,
           "format": "short",
           "label": "",
@@ -6662,6 +6397,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:219",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -6720,12 +6456,6 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "BP Minting Performance for alerting purposes",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 1,
       "gridPos": {
@@ -6759,7 +6489,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -6784,7 +6514,8 @@
           "fill": true,
           "line": true,
           "op": "lt",
-          "value": 100
+          "value": 100,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -6806,6 +6537,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:218",
           "decimals": null,
           "format": "short",
           "label": "",
@@ -6815,6 +6547,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:219",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -6873,12 +6606,6 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "Node Peers for alerting purposes",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 1,
       "gridPos": {
@@ -6912,7 +6639,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -6937,7 +6664,8 @@
           "fill": true,
           "line": true,
           "op": "lt",
-          "value": 2
+          "value": 2,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -6959,6 +6687,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:218",
           "decimals": null,
           "format": "short",
           "label": "",
@@ -6968,6 +6697,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:219",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -7026,12 +6756,6 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "Disk Available for alerting purposes",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 1,
       "gridPos": {
@@ -7065,7 +6789,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.0.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -7090,7 +6814,8 @@
           "fill": true,
           "line": true,
           "op": "lt",
-          "value": 25000000000
+          "value": 25000000000,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -7112,6 +6837,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:218",
           "decimals": null,
           "format": "decbytes",
           "label": "",
@@ -7121,6 +6847,114 @@
           "show": true
         },
         {
+          "$$hashKey": "object:219",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "vda_write": "#6ED0E0"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "decimals": 2,
+      "description": "Node Peers for alerting purposes",
+      "fill": 1,
+      "fillGradient": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 43
+      },
+      "height": "300",
+      "hiddenSeries": false,
+      "id": 117,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": true,
+        "min": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.0.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "cardano_node_metrics_slotsMissedNum_int",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{alias}}_slots_missed",
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Slots Missed",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:218",
+          "decimals": null,
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:219",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -7135,8 +6969,8 @@
       }
     }
   ],
-  "refresh": false,
-  "schemaVersion": 26,
+  "refresh": "",
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -7163,5 +6997,5 @@
   "timezone": "",
   "title": "{SAFE}BOARD",
   "uid": "SAFEBOARD",
-  "version": 63
+  "version": 66
 }

@@ -1,4 +1,4 @@
-# SafeStak [SAFE] Cardano Stake Pool Construction Kit
+# SafeStak {SAFE} Cardano Stake Pool Construction Kit
 
 ## Goals
  - Define an executable declarative representation of cloud infrastructure to host a [Cardano](https://cardano.org/en/what-is-cardano/) stake pool 

@@ -1,4 +1,4 @@
-# SafeStak [SAFE] Cardano Stake Pool Initialisation Kit
+# SafeStak {SAFE} Cardano Stake Pool Initialisation Kit
 
 In an effort to save time setting up the VMs to run the Cardano stake pool I have created the scripts in this folder but please use it with caution as they are possibility out-of-date! 
 

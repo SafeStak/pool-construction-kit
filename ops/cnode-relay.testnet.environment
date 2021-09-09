@@ -1,0 +1,6 @@
+CONFIG="/home/sp/testnet-node/config/config.json"
+TOPOLOGY="/home/sp/testnet-node/config/topology.json"
+DBPATH="/home/sp/testnet-node/db/"
+SOCKETPATH="/home/sp/testnet-node/socket/node.socket"
+HOSTADDR="0.0.0.0"
+PORT="3001"

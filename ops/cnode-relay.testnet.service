@@ -1,11 +1,11 @@
 [Unit]
-Description=Cardano Node - Relay (Mainnet)
+Description=Cardano Node - Relay (Testnet)
 After=multi-user.target
 
 [Service]
 Type=simple
 User=sp
-EnvironmentFile=/home/sp/node/config/cnode-relay.environment
+EnvironmentFile=/home/sp/testnet-node/config/cnode-relay.environment
 ExecStart=/home/sp/.local/bin/cardano-node +RTS -N4 -RTS run --config $CONFIG --topology $TOPOLOGY --database-path $DBPATH --socket-path $SOCKETPATH --host-addr $HOSTADDR --port $PORT
 LimitNOFILE=32768
 
