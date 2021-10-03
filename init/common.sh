@@ -31,7 +31,7 @@ sudo cp ~/git/pool-construction-kit/init/chrony.conf /etc/chrony/chrony.conf
 sudo sysctl --system
 sudo systemctl restart chrony
 
-# GHCUP makes ghc and cabal versioning maintenance easier
+# GHCUP makes ghc and cabal versioning maintenance easier but requires user interaction
 # mkdir -p ~/setup/ghcup
 # cd ~/setup/ghcup
 # curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh # Option 1 Interactive
@@ -86,8 +86,8 @@ cd ~/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
 git fetch --all --recurse-submodules --tags
-git checkout tags/1.29.0
-cabal configure --with-compiler=ghc-8.10.4
+git checkout tags/1.30.1
+~/.local/bin/cabal configure --with-compiler=ghc-8.10.4
 echo -e "package cardano-crypto-praos\n  flags: -external-libsodium-vrf" >> cabal.project.local
 ~/.local/bin/cabal build all
 cp -p "$(./scripts/bin-path.sh cardano-node)" ~/.local/bin/

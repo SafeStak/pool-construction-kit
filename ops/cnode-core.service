@@ -1,5 +1,5 @@
 [Unit]
-Description=Cardano Node - Core
+Description=Cardano Node - Core (Mainnet)
 After=multi-user.target
 
 [Service]
