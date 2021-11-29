@@ -15,13 +15,13 @@ cardano-cli query protocol-parameters --testnet-magic $MAGIC --out-file protocol
 echo '========================================================='
 echo "Querying reward details of staking address $2.addr"
 echo '========================================================='
-REWARDAMOUNT=$(cardano-cli query stake-address-info --testnet-magic $MAGIC --address $(cat $2.addr) | jq .[0].rewardAccountBalance)
+REWARDAMOUNT=$(cardano-cli query stake-address-info --testnet-magic $MAGIC --address $(< $2.addr) | jq .[0].rewardAccountBalance)
 echo Rewards: $REWARDAMOUNT
 
 echo '========================================================='
 echo "Querying first UTXO of $1.addr"
 echo '========================================================='
-UTXO0=$(cardano-cli query utxo --address $(cat $1.addr) --testnet-magic $MAGIC | sed -n 3p) 
+UTXO0=$(cardano-cli query utxo --address $(< $1.addr) --testnet-magic $MAGIC | sed -n 3p) 
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -36,8 +36,8 @@ rm withdraw_rewards.txraw 2> /dev/null
 NEWBAL=$(expr $UTXO0V + $UTXO1V + $REWARDAMOUNT)
 cardano-cli transaction build-raw \
     --tx-in $UTXO0H#$UTXO0I \
-    --tx-out $(cat $1.addr)+$NEWBAL \
-    --withdrawal $(cat $2.addr)+$REWARDAMOUNT \
+    --tx-out $(< $1.addr)+$NEWBAL \
+    --withdrawal $(< $2.addr)+$REWARDAMOUNT \
     --ttl 0 \
     --fee 0 \
     --out-file withdraw_rewards.txraw
@@ -61,8 +61,8 @@ echo TTL: $TTL
 echo New Balance: $NEWBAL
 cardano-cli transaction build-raw \
     --tx-in $UTXO0H#$UTXO0I \
-    --tx-out $(cat $1.addr)+$NEWBAL \
-    --withdrawal $(cat $2.addr)+$REWARDAMOUNT \
+    --tx-out $(< $1.addr)+$NEWBAL \
+    --withdrawal $(< $2.addr)+$REWARDAMOUNT \
     --ttl $TTL \
     --fee $FEE \
     --out-file withdraw_rewards.txraw

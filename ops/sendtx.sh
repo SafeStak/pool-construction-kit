@@ -14,7 +14,7 @@ cardano-cli query protocol-parameters --mainnet --out-file protocol.json
 echo '========================================================='
 echo "Querying utxo details of $3.addr"
 echo '========================================================='​
-UTXO0=$(cardano-cli query utxo --address $(cat $3.addr) --testnet-magic $MAGIC | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet UTxOs 
+UTXO0=$(cardano-cli query utxo --address $(< $3.addr) --testnet-magic $MAGIC | sed -n 3p) # Only takes the first entry (3rd line) which works for faucet UTxOs 
 UTXO0H=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 1p)
 UTXO0I=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 2p)
 UTXO0V=$(echo $UTXO0 | egrep -o '[a-z0-9]+' | sed -n 3p)
@@ -28,7 +28,7 @@ CHANGE=$(expr $UTXO0V - $2)
 cardano-cli transaction build-raw \
     --tx-in $UTXO0H#$UTXO0I \
     --tx-out $1+$2 \
-    --tx-out $(cat payment.addr)+$CHANGE \
+    --tx-out $(< $3.addr)+$CHANGE \
     --ttl 0 \
     --fee 0 \
     --out-file draft.txraw
@@ -47,11 +47,11 @@ echo '========================================================='
 CTIP=$(cardano-cli query tip --mainnet | jq -r .slot)
 TTL=$(expr $CTIP + 900)
 CHANGE=$(expr $UTXO0V - $FEE - $2) 
-# echo "--tx-in $UTXO0H#$UTXO0I --tx-out $1+$2 --tx-out $(cat $3.addr)+$CHANGE --ttl $TTL --fee $FEE --out-file sendtx.txraw"
+# echo "--tx-in $UTXO0H#$UTXO0I --tx-out $1+$2 --tx-out $(< $3.addr)+$CHANGE --ttl $TTL --fee $FEE --out-file sendtx.txraw"
 cardano-cli  transaction build-raw \
     --tx-in $UTXO0H#$UTXO0I \
     --tx-out $1+$2 \
-    --tx-out $(cat payment.addr)+$CHANGE \
+    --tx-out $(< $3.addr)+$CHANGE \
     --ttl $TTL \
     --fee $FEE \
     --out-file sendtx.txraw

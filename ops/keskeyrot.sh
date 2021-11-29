@@ -5,20 +5,22 @@ echo 'Regenerating KES Key pair'
 echo '========================================================='
 KESCOUNTER=$(printf "%06d" $(cat cold.counter | jq -r .description | egrep -o '[0-9]+'))
 cardano-cli node key-gen-KES \
---verification-key-file kes-$KESCOUNTER.vkey \
---signing-key-file kes-$KESCOUNTER.skey
+    --verification-key-file kes-$KESCOUNTER.vkey \
+    --signing-key-file kes-$KESCOUNTER.skey
 
 echo '========================================================='
 echo 'Re-Generating Stake Pool Operational Certificate'
 echo '========================================================='
+# Following 3 commands has to run separately on a hot node TODO: Use https://github.com/gitmachtl/scripts/blob/master/cardano/mainnet-release-candidate/0x_showCurrentEpochKES.sh for offline
 SLOTS_PER_KESPERIOD=$(cat ~/node/config/sgenesis.json | jq -r .slotsPerKESPeriod)
-CTIP=$(cardano-cli query tip --mainnet | jq -r .slot) # Currently has to run separately on an online device TODO: Use https://github.com/gitmachtl/scripts/blob/master/cardano/mainnet-release-candidate/0x_showCurrentEpochKES.sh for offline
+CTIP=$(cardano-cli query tip --mainnet | jq -r .slot) 
 KESP=$(expr $CTIP / $SLOTS_PER_KESPERIOD)
 cardano-cli node issue-op-cert \
---kes-verification-key-file kes-$KESCOUNTER.vkey \
---cold-signing-key-file cold.skey \
---operational-certificate-issue-counter cold.counter \
---kes-period $KESP --out-file node.cert
+    --kes-verification-key-file kes-$KESCOUNTER.vkey \
+    --cold-signing-key-file cold.skey \
+    --operational-certificate-issue-counter cold.counter \
+    --kes-period $KESP \
+    --out-file node.cert
 
 cp kes-$KESCOUNTER.skey kes.skey
 

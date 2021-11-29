@@ -4,9 +4,9 @@ After=multi-user.target
 
 [Service]
 Type=simple
-User=sp
-EnvironmentFile=/home/sp/testnet-node/config/cnode-relay.environment
-ExecStart=/home/sp/.local/bin/cardano-node +RTS -N4 -RTS run --config $CONFIG --topology $TOPOLOGY --database-path $DBPATH --socket-path $SOCKETPATH --host-addr $HOSTADDR --port $PORT
+User=ss
+EnvironmentFile=/home/ss/testnet-node/config/cnode-relay.environment
+ExecStart=/home/ss/.local/bin/cardano-node +RTS -N4 -RTS run --config $CONFIG --topology $TOPOLOGY --database-path $DBPATH --socket-path $SOCKETPATH --host-addr $HOSTADDR --port $PORT
 LimitNOFILE=32768
 
 StandardOutput=journal
